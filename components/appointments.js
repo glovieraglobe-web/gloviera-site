@@ -635,7 +635,7 @@ class GlovieraAppointments extends HTMLElement {
 
     refreshUI();
     paymentSelect.addEventListener('change', renderTotals);
-    const APPOINTMENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbyjpKr8sTnrlxOZl_Mc5MDsIYZvI7h2uysvY1N0L-dR352T3_1_IgB-Z2CTEDm65hUS/exec";
+    const APPOINTMENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbxB5n2dDtaI9KyQX0SEUsbRXR_6QxwCJY-wOUSwhUAtXx9VP0FRGczQWDtr3_mzPMIM/exec";
 
     const submitAppointment = async (payload) => {
       const response = await fetch(APPOINTMENT_ENDPOINT, {

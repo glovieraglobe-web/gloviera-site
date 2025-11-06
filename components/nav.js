@@ -50,18 +50,18 @@ class GlovieraNav extends HTMLElement {
         }
 
         .logo {
-          height: 46px;
+          height: 52px;
+          width: 52px;
           cursor: pointer;
           transition: transform .3s ease, filter .3s ease;
           transform-origin: center;
           transform-style: preserve-3d;
-        }
-
-        :host(:not([data-platform="ios"])) .logo {
-          animation: spinY 12s linear infinite;
+          animation: spinY 10s linear infinite;
+          display: block;
         }
 
         .logo:hover {
+          animation-play-state: paused;
           transform: scale(1.06) rotateY(0deg);
           filter: drop-shadow(0 0 8px rgba(237,154,154,0.6));
         }
@@ -111,7 +111,7 @@ class GlovieraNav extends HTMLElement {
 
         @media (max-width: 768px) {
           nav { padding: 14px 16px 10px; }
-          .logo { height: 40px; }
+          .logo { height: 40px; width: 40px; }
           .brand { font-size: 1.3rem; }
         }
 
@@ -146,7 +146,7 @@ class GlovieraNav extends HTMLElement {
           .nav-links { display: none; }
           .brand { font-size: 1.2rem; }
           .actions { margin-left: auto; }
-          .logo { height: 38px; }
+          .logo { height: 38px; width: 38px; }
         }
 
         @media (max-width: 560px) {
@@ -160,7 +160,26 @@ class GlovieraNav extends HTMLElement {
             flex: 1;
             text-align: center;
           }
-          .logo { height: 34px; }
+          .logo { height: 34px; width: 34px; }
+        }
+
+        :host([data-platform="ios"]) {
+          padding-top: 0;
+        }
+
+        :host([data-platform="ios"]) .status-spacer {
+          display: none;
+          height: 0;
+        }
+
+        :host([data-platform="ios"]) nav {
+          padding-top: calc(8px + env(safe-area-inset-top, 0px));
+        }
+
+        @media (max-width: 560px) {
+          :host([data-platform="ios"]) nav {
+            padding-top: calc(6px + env(safe-area-inset-top, 0px));
+          }
         }
       </style>
 

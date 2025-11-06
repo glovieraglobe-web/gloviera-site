@@ -298,6 +298,21 @@ function Testimonials() {
 }
 
 function CallToAction() {
+  const handleBuyNow = (event) => {
+    event.preventDefault();
+    const trigger = document.querySelector('[data-payment-trigger="buy-now"]');
+    if (trigger) {
+      trigger.dispatchEvent(new Event('click', { bubbles: true }));
+      return;
+    }
+    const fallback = document.getElementById('buyNowButton');
+    if (fallback) {
+      fallback.dispatchEvent(new Event('click', { bubbles: true }));
+      return;
+    }
+    window.location.hash = '#cta';
+  };
+
   return (
     <section className="relative py-24 px-6">
       <div className="absolute inset-0 bg-[#1c1a1a]" aria-hidden="true" />
@@ -309,12 +324,13 @@ function CallToAction() {
           priority access to upcoming glow ateliers.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <a
-            href="https://wa.me/"
+          <button
+            type="button"
+            onClick={handleBuyNow}
             className="px-8 py-3 rounded-full bg-glogold text-[#1c1a1a] uppercase tracking-[0.35em] text-xs font-semibold shadow-glow-pill"
           >
             Buy Now
-          </a>
+          </button>
           <a
             href="#hero"
             className="px-8 py-3 rounded-full border border-white/40 text-white uppercase tracking-[0.35em] text-xs font-semibold"

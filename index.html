@@ -266,7 +266,8 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import {
       getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-      signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup
+      signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup,
+      signInWithRedirect, getRedirectResult
     } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
     import {
       getFirestore, doc, setDoc, getDoc, collection, addDoc, serverTimestamp, updateDoc, increment
@@ -287,6 +288,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
+    const isNativeApp = Boolean(window.Capacitor && window.Capacitor.platform && window.Capacitor.platform !== 'web');
 
     const API_BASE_URL =
       (window.__GLOVIERA_CONFIG__ && window.__GLOVIERA_CONFIG__.apiBaseUrl) ||
@@ -308,6 +310,21 @@
     const logoutBtn = document.getElementById('logoutBtn');
     const googleBtn = document.getElementById('googleBtn');
     const googleBtnSU = document.getElementById('googleBtnSU');
+    const googleButtons = [googleBtn, googleBtnSU].filter(Boolean);
+    const isSignupActive = () => tabSignup.classList.contains('active');
+    let googleAuthInFlight = false;
+
+    function setGooglePending(pending) {
+      googleAuthInFlight = pending;
+      googleButtons.forEach((btn) => {
+        btn.disabled = pending;
+        btn.style.opacity = pending ? '0.6' : '';
+      });
+      if (!pending) {
+        if (signupStatus.textContent === "Opening Google sign-in…") signupStatus.textContent = "";
+        if (loginStatus.textContent === "Opening Google sign-in…") loginStatus.textContent = "";
+      }
+    }
 
     function showAuth(tab="login") {
       overlay.classList.add('show');
@@ -391,11 +408,25 @@
     // 🟦 Google Sign-in
     async function googleSignIn() {
       try {
+        if (googleAuthInFlight) {
+          return;
+        }
+        const statusEl = isSignupActive() ? signupStatus : loginStatus;
+        statusEl.textContent = "Opening Google sign-in…";
+        setGooglePending(true);
+
+        if (isNativeApp) {
+          await signInWithRedirect(auth, provider);
+          return;
+        }
+
         const res = await signInWithPopup(auth, provider);
-        await saveUserProfile(res.user);   // store name/email now; user can edit phone/gender/dob later
+        await saveUserProfile(res.user);
         hideAuth();
+        setGooglePending(false);
       } catch (err) {
-        (document.querySelector('.tab.active')?.dataset.tab === 'signup' ? signupStatus : loginStatus).textContent = err.message;
+        (isSignupActive() ? signupStatus : loginStatus).textContent = err.message;
+        setGooglePending(false);
       }
     }
     googleBtn.addEventListener('click', googleSignIn);
@@ -610,3 +641,17 @@
   </script>
   </body>
   </html>
+    if (isNativeApp) {
+      getRedirectResult(auth)
+        .then(async (result) => {
+          if (result && result.user) {
+            await saveUserProfile(result.user);
+            hideAuth();
+          }
+        })
+        .catch((err) => {
+          console.warn('Redirect sign-in failed', err);
+          (isSignupActive() ? signupStatus : loginStatus).textContent = err.message;
+        })
+        .finally(() => setGooglePending(false));
+    }
