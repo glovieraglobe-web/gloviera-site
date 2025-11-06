@@ -1,0 +1,382 @@
+const { useEffect, useState, useMemo } = React;
+
+const HERO_POINTS = [
+  "Rice Water brightens and refines for a lit-from-within glow.",
+  "Salicylic Acid clears impurities without stripping your barrier.",
+  "Niacinamide smooths texture and balances every skin story.",
+];
+
+const BENEFIT_TIERS = [
+  {
+    title: "Glow Beyond Beauty",
+    description:
+      "Crafted for the modern ritual — velvety foam, spa-level fragrance, and a finish that feels like silk.",
+  },
+  {
+    title: "Clean Chemistry",
+    description: "No sulphates, parabens, or harsh synthetics. Dermatologist-tested for daily devotion.",
+  },
+  {
+    title: "Radiance that stays",
+    description: "Hydrates for 24 hours with rice peptides and moisture-sealing botanicals.",
+  },
+];
+
+const INGREDIENTS = [
+  {
+    name: "Pure Rice Water",
+    copy:
+      "Infuses skin with amino acids and minerals to brighten, soften, and calm irritation — a heritage beauty secret reborn.",
+    image: "assets/f0903a6d2cd6262b48a4ded4912183624fe4df9f.png",
+  },
+  {
+    name: "Niacinamide Complex",
+    copy:
+      "Minimises pores, balances sebum, and strengthens the barrier so your glow feels confident and effortless.",
+    image: "assets/5cae027095388a35dd94b669d368fd7888cf2d8c.png",
+  },
+];
+
+const PROMISES = ["No Sulphates", "No Parabens", "No Harsh Chemicals", "Perfect for Every Skin"];
+
+function useScrollReveal() {
+  useEffect(() => {
+    const elements = document.querySelectorAll('[data-animate]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    elements.forEach((el) => {
+      el.classList.add('reveal-item');
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+}
+
+function SplashScreen({ visible, onDismiss }) {
+  return (
+    <div className={`splash-overlay transition-opacity duration-700 ${visible ? '' : 'hidden'}`}>
+      <div className="w-48 h-48 logo-mask animate-spin-slow" aria-hidden="true" />
+      <div className="text-center flex flex-col gap-3">
+        <p className="uppercase tracking-[0.6em] text-sm text-[#6a0303]">Glow Beyond Beauty</p>
+        <p className="text-3xl md:text-4xl font-shrikhand text-[#6a0303]">GLOVIÉRA</p>
+      </div>
+      <button
+        type="button"
+        onClick={onDismiss}
+        className="mt-4 px-6 py-2 rounded-full bg-glogold text-white font-semibold tracking-[0.3em] text-xs shadow-glow-pill uppercase"
+      >
+        Enter Ritual
+      </button>
+    </div>
+  );
+}
+
+function RotatingLogoFeature() {
+  return (
+    <div className="relative flex flex-col items-center gap-6">
+      <div className="h-[280px] w-[280px] rounded-full bg-white/20 flex items-center justify-center backdrop-blur-lg border border-white/30 shadow-inner">
+        <div className="logo-mask h-[220px] w-[220px] animate-spin-slow" aria-hidden="true" />
+      </div>
+      <p className="text-center text-[#2b1f05] max-w-sm text-lg leading-relaxed">
+        Signature emblem in endless motion — a visual meditation that ushers you into the Gloviéra ritual.
+      </p>
+    </div>
+  );
+}
+
+function HeroSection() {
+  return (
+    <section className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-28 pb-24 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#f8e6af] via-[#efd88d] to-[#f0c470]" aria-hidden="true" />
+      <div className="absolute -left-32 top-24 h-64 w-64 rounded-full bg-[#fcb100]/20 blur-3xl" aria-hidden="true" />
+      <div className="absolute -right-40 bottom-12 h-72 w-72 rounded-full bg-[#b58411]/20 blur-3xl" aria-hidden="true" />
+
+      <div className="relative flex flex-col lg:flex-row items-center gap-16 max-w-6xl mx-auto" data-animate>
+        <div className="flex-1 flex flex-col items-center lg:items-start gap-6">
+          <span className="uppercase tracking-[0.6em] text-xs text-[#6a0303]">Glow Beyond Beauty</span>
+          <h1 className="text-4xl md:text-6xl font-[\"Jacques Francois Shadow\",serif] text-[#073161] leading-tight">
+            Gloviéra Rice Water Face Wash Ritual
+          </h1>
+          <p className="text-[#4f2222] max-w-xl leading-relaxed text-base md:text-lg">
+            Transform your evening cleanse into a golden ceremony. Satin foam, botanical actives, and signature fragrance harmonise for skin that feels renewed, balanced, and unmistakably luminous.
+          </p>
+          <ul className="space-y-3 text-left text-[#2b1f05]">
+            {HERO_POINTS.map((point) => (
+              <li key={point} className="flex items-start gap-3">
+                <span className="mt-[6px] h-2 w-2 rounded-full bg-glogold" />
+                <span className="text-base md:text-lg leading-relaxed">{point}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="flex flex-wrap gap-4 pt-4">
+            <a
+              href="#benefits"
+              className="px-8 py-3 rounded-full bg-glogold text-white font-semibold tracking-[0.3em] text-xs uppercase shadow-glow-pill"
+            >
+              Explore Benefits
+            </a>
+            <a
+              href="#ritual"
+              className="px-8 py-3 rounded-full border border-[#6a0303]/30 text-[#6a0303] font-semibold tracking-[0.3em] text-xs uppercase"
+            >
+              Watch Ritual
+            </a>
+          </div>
+        </div>
+        <div className="flex-1 flex flex-col items-center gap-10">
+          <RotatingLogoFeature />
+          <img
+            src="assets/1524b95e673b63dda56a7ed9733f03feba4908db.png"
+            alt="Gloviéra premium face wash bottle"
+            className="w-56 sm:w-64 md:w-72 drop-shadow-2xl animate-floaty"
+          />
+        </div>
+      </div>
+      <div className="relative mt-16 flex flex-col items-center" data-animate>
+        <span className="golden-divider mb-6" />
+        <p className="uppercase tracking-[0.5em] text-xs text-[#6a0303]/80">Scroll to Discover</p>
+      </div>
+    </section>
+  );
+}
+
+function BenefitGrid() {
+  return (
+    <section id="benefits" className="relative py-24 px-6">
+      <div className="absolute inset-x-0 top-0 h-full bg-[#b58411]/15" aria-hidden="true" />
+      <div className="relative max-w-5xl mx-auto grid gap-10 md:grid-cols-3" data-animate>
+        {BENEFIT_TIERS.map((benefit) => (
+          <article
+            key={benefit.title}
+            className="rounded-[36px] bg-white/70 backdrop-blur-lg border border-white/60 p-8 shadow-[0_18px_60px_rgba(181,132,17,0.25)]"
+          >
+            <h3 className="font-kanit text-2xl text-[#6a0303] tracking-[0.1em] uppercase mb-4">{benefit.title}</h3>
+            <p className="text-[#2b1f05] leading-relaxed">{benefit.description}</p>
+          </article>
+        ))}
+      </div>
+      <div className="relative max-w-4xl mx-auto mt-16 grid gap-4 md:grid-cols-2" data-animate>
+        {PROMISES.map((item) => (
+          <div
+            key={item}
+            className="px-6 py-4 rounded-full bg-glogold text-white text-center font-kanit text-lg tracking-[0.2em] uppercase shadow-glow-pill"
+          >
+            {item}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function IngredientShowcase() {
+  return (
+    <section className="relative py-28 px-6 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#efd88d] via-[#f5d891] to-[#f7c969]" aria-hidden="true" />
+      <div className="relative max-w-6xl mx-auto grid gap-12 lg:grid-cols-2 items-center" data-animate>
+        <div className="space-y-8">
+          <p className="uppercase tracking-[0.6em] text-xs text-[#6a0303]">Ingredients Spotlight</p>
+          <h2 className="text-4xl md:text-5xl font-shrikhand text-[#6a0303] leading-tight">
+            Ancestral wisdom, modern science
+          </h2>
+          <p className="text-[#4f2222] text-lg leading-relaxed max-w-xl">
+            Each bottle is a symphony of glow-giving actives. Rice peptides rebuild luminosity, Niacinamide refines, and
+            botanicals cocoon your skin with comfort. Zero compromise — only pure ritual.
+          </p>
+        </div>
+        <div className="grid gap-10" data-animate>
+          {INGREDIENTS.map((ingredient) => (
+            <article
+              key={ingredient.name}
+              className="rounded-[40px] overflow-hidden border border-[#160f01]/20 shadow-[0_14px_40px_rgba(16,15,1,0.15)] bg-white"
+            >
+              <div className="h-64 overflow-hidden">
+                <img src={ingredient.image} alt={ingredient.name} className="w-full h-full object-cover" />
+              </div>
+              <div className="p-8 space-y-4">
+                <h3 className="font-kanit text-2xl tracking-[0.15em] uppercase text-[#6a0303]">{ingredient.name}</h3>
+                <p className="text-[#2b1f05] leading-relaxed">{ingredient.copy}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RitualVideo() {
+  return (
+    <section id="ritual" className="relative py-28 px-6">
+      <div className="absolute inset-0 bg-[#1c1a1a]" aria-hidden="true" />
+      <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[1.1fr_1fr] gap-12 items-center text-white" data-animate>
+        <div>
+          <p className="uppercase tracking-[0.6em] text-xs text-glogold">The Glow Ceremony</p>
+          <h2 className="text-4xl md:text-5xl font-oleo text-glogold leading-tight">Immerse in the ritual</h2>
+          <p className="mt-6 text-lg leading-relaxed text-white/80">
+            Begin with damp skin. Emulsify two pumps of Gloviéra, breathe in the warm floral accords, massage in circular
+            motions, and rinse to reveal a polished, illuminated complexion. Follow with your favourite serum to seal the
+            radiance.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <span className="px-4 py-2 rounded-full border border-white/40 text-xs tracking-[0.3em] uppercase">
+              2 Pump Ritual
+            </span>
+            <span className="px-4 py-2 rounded-full border border-white/40 text-xs tracking-[0.3em] uppercase">
+              Velvet Foam
+            </span>
+            <span className="px-4 py-2 rounded-full border border-white/40 text-xs tracking-[0.3em] uppercase">
+              Instant Glow
+            </span>
+          </div>
+        </div>
+        <div className="relative">
+          <div className="absolute inset-0 translate-x-6 translate-y-6 bg-glogold/40 blur-3xl" aria-hidden="true" />
+          <div className="relative rounded-[32px] overflow-hidden border border-white/30 shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
+            <div className="aspect-[4/5] bg-[#000] flex items-center justify-center">
+              <div className="logo-mask h-[65%] w-[65%] animate-spin-slow" aria-hidden="true" />
+            </div>
+          </div>
+          <p className="mt-4 text-center text-sm text-white/70">
+            Rotating sigil invites you to breathe, reset, and indulge in the Gloviéra glow.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Testimonials() {
+  const testimonials = useMemo(
+    () => [
+      {
+        quote:
+          '“My pores look refined and makeup glides on flawlessly. The ritual fragrance is addictive.”',
+        name: 'Anika · Mumbai',
+      },
+      {
+        quote: '“Balanced my combination skin within a week. Luxurious yet gentle — spa at home.”',
+        name: 'Sana · Dubai',
+      },
+      {
+        quote: '“Glow stays all day. No dryness, no tightness — just satin softness.”',
+        name: 'Maya · Singapore',
+      },
+    ],
+    []
+  );
+
+  return (
+    <section className="relative py-24 px-6">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#f7d88d] to-[#efd88d]" aria-hidden="true" />
+      <div className="relative max-w-5xl mx-auto text-center space-y-8" data-animate>
+        <h2 className="text-4xl font-oleo text-[#6a0303] tracking-[0.2em] uppercase">Loved by Glow Seekers</h2>
+        <div className="grid gap-8 md:grid-cols-3">
+          {testimonials.map((item) => (
+            <blockquote
+              key={item.name}
+              className="bg-white/80 backdrop-blur-lg rounded-[30px] p-8 shadow-[0_16px_40px_rgba(111,71,5,0.18)] text-[#2b1f05]"
+            >
+              <p className="italic leading-relaxed mb-4">{item.quote}</p>
+              <footer className="text-sm uppercase tracking-[0.3em] text-[#6a0303]">{item.name}</footer>
+            </blockquote>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CallToAction() {
+  return (
+    <section className="relative py-24 px-6">
+      <div className="absolute inset-0 bg-[#1c1a1a]" aria-hidden="true" />
+      <div className="relative max-w-4xl mx-auto text-center text-white space-y-6" data-animate>
+        <p className="uppercase tracking-[0.6em] text-xs text-glogold">Unveil the Glow</p>
+        <h2 className="text-4xl md:text-5xl font-shrikhand text-glogold">Bring the Ritual Home</h2>
+        <p className="text-white/80 text-lg leading-relaxed">
+          Step into a luminous complexion with Gloviéra’s signature face wash. Order now and receive our ritual guide, plus
+          priority access to upcoming glow ateliers.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <a
+            href="https://wa.me/"
+            className="px-8 py-3 rounded-full bg-glogold text-[#1c1a1a] uppercase tracking-[0.35em] text-xs font-semibold shadow-glow-pill"
+          >
+            Buy Now
+          </a>
+          <a
+            href="#hero"
+            className="px-8 py-3 rounded-full border border-white/40 text-white uppercase tracking-[0.35em] text-xs font-semibold"
+          >
+            Revisit Ritual
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DesktopPage() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useScrollReveal();
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 2200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="bg-globg text-[#2b1f05] min-h-screen font-vesper" id="hero">
+      <SplashScreen visible={showSplash} onDismiss={() => setShowSplash(false)} />
+      <header className="sticky top-0 z-40 bg-globg/80 backdrop-blur-sm border-b border-glogold/30">
+        <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 logo-mask" aria-hidden="true" />
+            <div>
+              <p className="text-xs uppercase tracking-[0.5em] text-[#6a0303]">Glow Beyond Beauty</p>
+              <p className="text-2xl font-shrikhand text-[#6a0303]">GLOVIÉRA</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <a href="#benefits" className="text-sm tracking-[0.3em] uppercase text-[#6a0303]">Benefits</a>
+            <a href="#ritual" className="text-sm tracking-[0.3em] uppercase text-[#6a0303]">Ritual</a>
+            <a href="#" className="px-6 py-2 rounded-full bg-glogold text-white uppercase text-xs tracking-[0.3em] shadow-glow-pill">
+              Buy Now
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <main className="overflow-hidden">
+        <HeroSection />
+        <BenefitGrid />
+        <IngredientShowcase />
+        <RitualVideo />
+        <Testimonials />
+        <CallToAction />
+      </main>
+
+      <footer className="bg-[#4f2222] text-[#ebd1d1] text-center py-6 text-sm">
+        © {new Date().getFullYear()} Gloviéra Enterprises LLP · Glow Beyond Beauty
+      </footer>
+    </div>
+  );
+}
+const rootElement = document.getElementById('root');
+if (ReactDOM.createRoot) {
+  ReactDOM.createRoot(rootElement).render(<DesktopPage />);
+} else {
+  ReactDOM.render(<DesktopPage />, rootElement);
+}

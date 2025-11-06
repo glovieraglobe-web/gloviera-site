@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Gloviéra | Glow Beyond Beauty</title>
+  <meta name="theme-color" content="#ed9a9a">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/icons/icon-128.png">
+  <link rel="apple-touch-icon" href="images/icons/icon-192.png">
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    window.__GLOVIERA_CONFIG__ = Object.assign({}, window.__GLOVIERA_CONFIG__ || {});
+    window.__GLOVIERA_CONFIG__.mockPayments = true;
+    window.__GLOVIERA_CONFIG__.allowMockOnFailure = true;
+  	window.GLOVIERA_FORCE_PAYMENT_MOCK = true;
+    window.GLOVIERA_ORDER_WEBHOOK =
+      'https://script.google.com/macros/s/AKfycbyahuy1wdz4eAd0cpuwdfpk794RxZlGk-8767V04Vz_x3KHpoAdEkCcVgsaPA5T3Kz8ng/exec';
+  </script>
+  <style>
+    :root {
+      --accent:#ed9a9a; --dark:#4f2222; --bg:#f6efef;
+    }
+    body { font-family:"Poppins",sans-serif; background:#fff; color:var(--dark); }
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:9999}
+    .modal-overlay.show{display:flex}
+    .modal{
+      background:#fff;
+      border-radius:16px;
+      max-width:520px;
+      width:92%;
+      box-shadow:0 20px 60px rgba(0,0,0,.25);
+      max-height:90vh;
+      overflow-x:hidden;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+    .modal header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:#fff7f7;border-bottom:1px solid #f1dede}
+    .modal header h3{margin:0;font-size:20px}
+    .modal .content{padding:18px 20px 22px}
+    .tabs{display:flex;gap:8px;margin-bottom:14px}
+    .tab{flex:1;text-align:center;padding:10px 12px;border:1px solid #e6d3d3;border-radius:10px;cursor:pointer;font-weight:600;background:#fff;color:#471313;transition:background .2s ease,color .2s ease}
+    .tab.active{background:#471313;color:#fff;border-color:#471313}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .full{grid-column:1 / -1}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{font-size:12px;color:#6f4d4d}
+    .field input,.field select{border:1px solid #e3d4d4;border-radius:10px;padding:10px 12px;font-size:14px;outline:none}
+    .actions{display:flex;gap:10px;margin-top:14px}
+    .btn{border:none;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+    .btn-primary{background:var(--accent);color:#fff}
+    .btn-outline{background:#fff;border:2px solid var(--accent);color:var(--dark)}
+    .muted{font-size:12px;color:#7b5b5b;margin-top:8px}
+    .hr{height:1px;background:#f0e3e3;margin:16px 0}
+    .google{background:#4285F4;color:#fff}
+    .status{margin-top:8px;font-size:13px;color:#6f4d4d;min-height:18px}
+    @media(max-width:520px){
+      .modal{width:96%;border-radius:14px}
+      .grid{grid-template-columns:1fr}
+      .actions{flex-direction:column}
+      .actions .btn{width:100%}
+    }
+    /* Footer */
+    .site-footer{background:var(--dark);color:#ebd1d1;padding:22px 0;margin-top:40px}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+    .footer-top{display:grid;gap:20px;align-items:start}
+    @media(min-width:768px){.footer-top{grid-template-columns:1fr auto}}
+    .footer-contacts{display:flex;flex-direction:column;gap:10px}
+    .footer-item{display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none}
+    .footer-item:hover{color:#fff}
+    .footer-item svg{width:18px;height:18px}
+    .footer-map{position:relative}
+    .footer-map iframe{width:320px;height:220px;border:0;border-radius:10px}
+    .footer-map a{display:block;margin-top:6px;color:#ebd1d1}
+    .footer-bottom{margin-top:14px}
+    /* Simple hero/deals placeholders keep your original layout intact */
+    .hero{background:linear-gradient(110deg,#300c0c 0%,#4f2222 100%);color:#fff;padding:70px 20px}
+    .hero-inner{max-width:1000px;margin:0 auto;text-align:center}
+    .hero h1{font-size:42px;margin:0 0 8px}
+    .hero p{opacity:.95}
+    .hero-cta{margin-top:18px;display:flex;gap:10px;justify-content:center}
+    .btn-link{display:inline-block;padding:10px 16px;border-radius:999px;border:2px solid #ed9a9a;color:#fff;text-decoration:none}
+    .btn-link.primary{background:#ed9a9a;color:#240404;border-color:#ed9a9a}
+  </style>
+</head>
+<body class="font-poppins">
+
+  <!-- Splash -->
+  <gloviera-splash></gloviera-splash>
+
+  <!-- Main App -->
+  <div id="app-container" class="hidden">
+    <gloviera-nav></gloviera-nav>
+
+    <main>
+      <!-- hero -->
+      <section class="hero">
+        <div class="hero-inner">
+          <h1>Glow Beyond Beauty</h1>
+          <p>Experience luxury beauty services and premium products</p>
+          <div class="hero-cta">
+            <a href="#appointments" class="btn-link primary">Book Now</a>
+            <a href="products/index.html" class="btn-link">Shop Products</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="deals container" style="padding:28px 0">
+        <h2 style="margin-bottom:6px">Ongoing Deals</h2>
+        <p class="muted">Seasonal offers and packages</p>
+      </section>
+
+      <section id="appointments" class="section">
+        <div class="container">
+          <gloviera-appointments></gloviera-appointments>
+        </div>
+      </section>
+
+      <section id="products" class="section">
+        <div class="container">
+          <gloviera-products></gloviera-products>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="container">
+          <div class="footer-top">
+            <div class="footer-contacts">
+              <a class="footer-item" href="https://www.instagram.com/gloviera.glam/" target="_blank" rel="noopener">
+                <i data-feather="instagram"></i><span>Instagram</span>
+              </a>
+              <a class="footer-item" href="tel:+917009195109">
+                <i data-feather="phone"></i><span>7009195109</span>
+              </a>
+              <a class="footer-item" href="tel:+918284932646">
+                <i data-feather="phone"></i><span>8284932646</span>
+              </a>
+              <a class="footer-item" href="http://wa.me/917009195109" target="_blank" rel="noopener">
+                <i data-feather="message-circle"></i><span>WhatsApp</span>
+              </a>
+            </div>
+            <div class="footer-map">
+              <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=30.7405139,76.6732376&z=17&output=embed" title="Gloviéra on Google Maps"></iframe>
+              <a href="https://www.google.com/maps?q=30.7405139,76.6732376" target="_blank" rel="noopener">Open in Google Maps</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>© <strong>GLOVIÉRA</strong> — Glow Beyond Beauty</p>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- 🔐 Auth Modal -->
+  <div id="authOverlay" class="modal-overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <header>
+        <h3 id="authTitle">Sign in to Gloviéra</h3>
+        <button id="authClose" class="btn btn-outline" aria-label="Close">✕</button>
+      </header>
+
+      <div class="content">
+        <div class="tabs">
+          <button id="tabLogin"  class="tab active" data-tab="login">Login</button>
+          <button id="tabSignup" class="tab" data-tab="signup">Sign Up</button>
+        </div>
+
+        <!-- LOGIN -->
+        <form id="loginForm">
+          <div class="grid">
+            <div class="field full">
+              <label>Email</label>
+              <input id="loginEmail" type="email" placeholder="you@example.com" required>
+            </div>
+            <div class="field full">
+              <label>Password</label>
+              <input id="loginPassword" type="password" placeholder="••••••••" required>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="submit" class="btn btn-primary" style="flex:1">Login</button>
+            <button type="button" id="googleBtn" class="btn google" style="flex:1">Sign in with Google</button>
+          </div>
+          <div id="loginStatus" class="status"></div>
+        </form>
+
+        <!-- SIGNUP -->
+        <form id="signupForm" style="display:none">
+          <div class="grid">
+            <div class="field full">
+              <label>Email</label>
+              <input id="suEmail" type="email" placeholder="you@example.com" required>
+            </div>
+            <div class="field full">
+              <label>Password</label>
+              <input id="suPassword" type="password" placeholder="Min 6 characters" required>
+            </div>
+            <div class="field full">
+              <label>Full Name</label>
+              <input id="suName" type="text" placeholder="Your name" required>
+            </div>
+            <div class="field">
+              <label>Phone</label>
+              <input id="suPhone" type="tel" placeholder="10-digit phone">
+            </div>
+            <div class="field">
+              <label>Gender</label>
+              <select id="suGender">
+                <option value="">Select</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option>Prefer not to say</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label>Date of Birth</label>
+              <input id="suDOB" type="date">
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-primary" style="flex:1">Create Account</button>
+            <button type="button" id="googleBtnSU" class="btn google" style="flex:1">Sign up with Google</button>
+          </div>
+          <div class="muted">By continuing, you agree to Gloviéra’s terms.</div>
+          <div id="signupStatus" class="status"></div>
+        </form>
+
+        <div class="hr"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div id="authedRow" style="display:none;gap:8px;align-items:center">
+            <span id="helloUser" style="font-weight:700"></span>
+            <button id="logoutBtn" class="btn btn-outline">Logout</button>
+          </div>
+          <small class="muted">Tip: You can open this from navbar (Login) or any “Buy Now”.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Components -->
+  <div id="installBanner" class="install-banner" role="dialog" aria-live="polite" aria-label="Install Gloviéra app">
+    <div class="install-banner__text">
+      <strong>Install Gloviéra</strong>
+      <span>Add quick access to your home screen.</span>
+    </div>
+    <div class="install-banner__actions">
+      <button id="installDismiss" class="install-banner__button secondary" type="button">Later</button>
+      <button id="installConfirm" class="install-banner__button primary" type="button">Install</button>
+    </div>
+  </div>
+
+  <script src="components/splash.js"></script>
+  <script src="components/nav.js"></script>
+  <script src="components/appointments.js"></script>
+  <script src="components/products.js"></script>
+  <script src="script.js"></script>
+
+  <!-- 🚀 Firebase + Firestore + Auth (drop-in) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import {
+      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+      signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import {
+      getFirestore, doc, setDoc, getDoc, collection, addDoc, serverTimestamp, updateDoc, increment
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    // 🔑 Your Firebase project
+    const firebaseConfig = {
+      apiKey: "AIzaSyC6LazuKUJqQw7JP1LHcI_z0S0MzyNg37Y",
+      authDomain: "gloviera-e1c92.firebaseapp.com",
+      projectId: "gloviera-e1c92",
+      storageBucket: "gloviera-e1c92.firebasestorage.app",
+      messagingSenderId: "980915433413",
+      appId: "1:980915433413:web:dcfd8fedd54b94e73a65ac",
+      measurementId: "G-FRT3966GSY"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+
+    const API_BASE_URL =
+      (window.__GLOVIERA_CONFIG__ && window.__GLOVIERA_CONFIG__.apiBaseUrl) ||
+      (window.location.hostname === 'localhost'
+        ? 'http://localhost:5000'
+        : window.location.origin);
+
+    // 👉 Modal helpers
+    const overlay = document.getElementById('authOverlay');
+    const btnClose = document.getElementById('authClose');
+    const tabLogin = document.getElementById('tabLogin');
+    const tabSignup = document.getElementById('tabSignup');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const loginStatus = document.getElementById('loginStatus');
+    const signupStatus = document.getElementById('signupStatus');
+    const helloUser = document.getElementById('helloUser');
+    const authedRow = document.getElementById('authedRow');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const googleBtn = document.getElementById('googleBtn');
+    const googleBtnSU = document.getElementById('googleBtnSU');
+
+    function showAuth(tab="login") {
+      overlay.classList.add('show');
+      setTab(tab);
+    }
+    function hideAuth(){ overlay.classList.remove('show'); }
+    function setTab(tab) {
+      const loginActive = tab === "login";
+      tabLogin.classList.toggle('active', loginActive);
+      tabSignup.classList.toggle('active', !loginActive);
+      loginForm.style.display = loginActive ? 'block' : 'none';
+      signupForm.style.display = loginActive ? 'none' : 'block';
+      loginStatus.textContent = ""; signupStatus.textContent = "";
+    }
+
+    btnClose.addEventListener('click', hideAuth);
+    tabLogin.addEventListener('click', ()=>setTab("login"));
+    tabSignup.addEventListener('click', ()=>setTab("signup"));
+
+    // Expose opener for navbar/buttons:
+    window.openAuth = showAuth;
+    document.addEventListener('click', (e) => {
+      const el = e.target.closest('[data-auth]');
+      if (el) { e.preventDefault(); showAuth(el.getAttribute('data-auth') || 'login'); }
+    });
+
+    // 🗂️ Profile saver
+    async function saveUserProfile(user, extra = {}) {
+      const ref = doc(db, "users", user.uid);
+      const existing = await getDoc(ref);
+      const base = {
+        uid: user.uid,
+        email: user.email || "",
+        name: user.displayName || "",
+        phone: "",
+        gender: "",
+        dob: "",
+        provider: user.providerData?.[0]?.providerId || "password",
+        updatedAt: serverTimestamp(),
+        createdAt: existing.exists() ? existing.data().createdAt : serverTimestamp()
+      };
+      await setDoc(ref, { ...base, ...extra }, { merge: true });
+    }
+
+    // ✉️ Signup (email+pass)
+    signupForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      signupStatus.textContent = "Creating account…";
+      try {
+        const email = document.getElementById('suEmail').value.trim();
+        const password = document.getElementById('suPassword').value;
+        const name = document.getElementById('suName').value.trim();
+        const phone = document.getElementById('suPhone').value.trim();
+        const gender = document.getElementById('suGender').value;
+        const dob = document.getElementById('suDOB').value;
+
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await saveUserProfile(cred.user, { name, phone, gender, dob });
+        signupStatus.textContent = "Account created! You are now signed in.";
+        setTimeout(hideAuth, 700);
+      } catch (err) {
+        signupStatus.textContent = err.message;
+      }
+    });
+
+    // 🔐 Login (email+pass)
+    loginForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      loginStatus.textContent = "Signing in…";
+      try {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        await signInWithEmailAndPassword(auth, email, password);
+        loginStatus.textContent = "Welcome back!";
+        setTimeout(hideAuth, 500);
+      } catch (err) {
+        loginStatus.textContent = err.message;
+      }
+    });
+
+    // 🟦 Google Sign-in
+    async function googleSignIn() {
+      try {
+        const res = await signInWithPopup(auth, provider);
+        await saveUserProfile(res.user);   // store name/email now; user can edit phone/gender/dob later
+        hideAuth();
+      } catch (err) {
+        (document.querySelector('.tab.active')?.dataset.tab === 'signup' ? signupStatus : loginStatus).textContent = err.message;
+      }
+    }
+    googleBtn.addEventListener('click', googleSignIn);
+    googleBtnSU.addEventListener('click', googleSignIn);
+
+    // 🚪 Logout
+    logoutBtn.addEventListener('click', async ()=>{
+      await signOut(auth);
+    });
+    // Allow other components (e.g., navbar) to request logout
+    window.addEventListener('request-logout', async ()=>{
+      try { await signOut(auth); } catch {}
+    });
+
+    // 👤 Auth state
+    onAuthStateChanged(auth, async (user)=>{
+      if (user) {
+        helloUser.textContent = `Hi, ${user.displayName || user.email || "Guest"}`;
+        authedRow.style.display = 'flex';
+        // Persist lightweight profile for navbar/avatar usage
+        const profile = {
+          uid: user.uid,
+          email: user.email || "",
+          name: user.displayName || user.email || "",
+          photoURL: user.photoURL || "images/default-profile.png"
+        };
+        try { localStorage.setItem('gloviera_user', JSON.stringify(profile)); } catch {}
+        // Notify components listening on window
+        window.dispatchEvent(new CustomEvent('auth-change', { detail:{ user } }));
+      } else {
+        authedRow.style.display = 'none';
+        try { localStorage.removeItem('gloviera_user'); } catch {}
+        window.dispatchEvent(new CustomEvent('auth-change', { detail:{ user:null } }));
+      }
+    });
+
+    // 🛒 Cart & Orders helpers (usable anywhere on site)
+    // Add button to any element: data-add-to-cart data-id="fw001" data-title="Gloviéra Facewash" data-price="299"
+    // Buy-now button: data-buy-now with same attributes
+    function getLocalCart(){ return JSON.parse(localStorage.getItem('gloviera_cart')||'[]'); }
+    function setLocalCart(c){ localStorage.setItem('gloviera_cart', JSON.stringify(c)); window.dispatchEvent(new CustomEvent('cart-updated')); }
+
+    async function addToCart(item){
+      // local first
+      let cart = getLocalCart();
+      const found = cart.find(x=>x.id===item.id);
+      if (found) found.qty = (found.qty||1)+ (item.qty||1);
+      else cart.push({...item, qty:item.qty||1});
+      setLocalCart(cart);
+
+      // cloud if logged
+      const user = auth.currentUser;
+      if (user) {
+        const ref = doc(db, "users", user.uid, "cart", item.id);
+        await setDoc(ref, {
+          title: item.title, price: Number(item.price||0), qty: increment(1), updatedAt: serverTimestamp()
+        }, { merge: true });
+      }
+    }
+
+    async function buyNow(item){
+      const user = auth.currentUser;
+      if (!user) { showAuth('login'); return; }
+
+      const amount = Number(item.price || 0);
+      if (!amount) {
+        alert("Unable to determine the item price.");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/payments/create`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount,
+            currency: "INR",
+            metadata: {
+              productId: item.id,
+              title: item.title
+            },
+            customer: {
+              id: user.uid,
+              name: user.displayName || user.email || "Gloviéra Guest",
+              email: user.email,
+              phone: user.phoneNumber
+            }
+          })
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data?.message || "Unable to initiate payment");
+        }
+
+        const redirectUrl = data?.redirectUrl;
+        const merchantTransactionId = data?.merchantTransactionId;
+
+        const ordersRef = collection(db, "users", user.uid, "orders");
+        await addDoc(ordersRef, {
+          itemId: item.id,
+          title: item.title,
+          amount,
+          status: "pending",
+          merchantTransactionId,
+          createdAt: serverTimestamp()
+        });
+
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+          return;
+        }
+
+        alert("Payment initiated. Follow the PhonePe instructions to complete the order.");
+      } catch (error) {
+        console.error(error);
+        alert("Could not start the PhonePe payment. Please try again.");
+      }
+    }
+
+    // Attribute-based event delegation (works across whole site)
+    document.addEventListener('click', async (e)=>{
+      const addBtn = e.target.closest('[data-add-to-cart]');
+      const buyBtn = e.target.closest('[data-buy-now]');
+      const openAuthBtn = e.target.closest('[data-auth]');
+      if (addBtn){
+        e.preventDefault();
+        await addToCart({
+          id: addBtn.getAttribute('data-id'),
+          title: addBtn.getAttribute('data-title'),
+          price: addBtn.getAttribute('data-price')
+        });
+        addBtn.textContent = "Added ✓";
+        setTimeout(()=> addBtn.textContent="Add to Cart", 900);
+      }
+      if (buyBtn){
+        e.preventDefault();
+        await buyNow({
+          id: buyBtn.getAttribute('data-id'),
+          title: buyBtn.getAttribute('data-title'),
+          price: buyBtn.getAttribute('data-price')
+        });
+      }
+      if (openAuthBtn){
+        e.preventDefault();
+        showAuth(openAuthBtn.getAttribute('data-auth') || 'login');
+      }
+    });
+
+    // Expose for custom scripts/components
+    window.GLOVIERA = { auth, db, addToCart, buyNow, openAuth: showAuth };
+  </script>
+  <script>
+    try { feather && feather.replace && feather.replace(); } catch (e) {}
+  </script>
+  <script>
+    (function () {
+      const banner = document.getElementById('installBanner');
+      const btnInstall = document.getElementById('installConfirm');
+      const btnDismiss = document.getElementById('installDismiss');
+      let deferredPrompt = null;
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').catch((err) => {
+            console.warn('Service worker registration failed', err);
+          });
+        });
+      }
+
+      function hideBanner() {
+        if (banner) {
+          banner.classList.remove('show');
+        }
+      }
+
+      window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        deferredPrompt = event;
+        if (banner) {
+          window.setTimeout(() => banner.classList.add('show'), 500);
+        }
+      });
+
+      window.addEventListener('appinstalled', () => {
+        hideBanner();
+        deferredPrompt = null;
+      });
+
+      if (btnInstall) {
+        btnInstall.addEventListener('click', async () => {
+          if (!deferredPrompt) {
+            hideBanner();
+            return;
+          }
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome !== 'dismissed') {
+            hideBanner();
+          }
+          deferredPrompt = null;
+        });
+      }
+
+      if (btnDismiss) {
+        btnDismiss.addEventListener('click', () => {
+          hideBanner();
+          deferredPrompt = null;
+        });
+      }
+    })();
+  </script>
+  </body>
+  </html>

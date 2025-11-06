@@ -1,0 +1,20 @@
+{
+  "name": "gloviera",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Production tooling and utilities for the Gloviéra web experience.",
+  "scripts": {
+    "dev": "node tools/dev-server.js",
+    "build": "node tools/build.js",
+    "serve": "npm run build && node tools/dev-server.js dist",
+    "mobile:sync": "npm run build && npm run sync --prefix mobile",
+    "mobile:android": "npm run build && npm run open:android --prefix mobile",
+    "mobile:ios": "npm run build && npm run open:ios --prefix mobile"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.4"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.4.4"
+  }
+}

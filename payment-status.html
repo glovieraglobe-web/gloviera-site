@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gloviéra | Payment Status</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+</head>
+<body class="font-poppins" style="display:flex;min-height:100vh;align-items:center;justify-content:center;background:#f6efef;">
+  <main class="card" style="max-width:420px;margin:24px;text-align:center;">
+    <h1 style="margin-bottom:8px;">PhonePe Payment</h1>
+    <p id="statusMessage">Checking your payment status…</p>
+    <div id="statusDetails" style="margin-top:16px;font-size:14px;color:#6f4d4d;"></div>
+    <div style="margin-top:24px;display:flex;gap:12px;justify-content:center;">
+      <a href="/" class="btn btn-primary">Back to Home</a>
+      <a href="/#appointments" class="btn btn-outline">Book Again</a>
+    </div>
+  </main>
+
+  <script>
+    (async function () {
+      const params = new URLSearchParams(window.location.search);
+      const transactionId = params.get('tx');
+      const statusMessage = document.getElementById('statusMessage');
+      const statusDetails = document.getElementById('statusDetails');
+      const apiBase =
+        (window.__GLOVIERA_CONFIG__ && window.__GLOVIERA_CONFIG__.apiBaseUrl) ||
+        (window.location.hostname === 'localhost'
+          ? 'http://localhost:5000'
+          : window.location.origin);
+
+      if (!transactionId) {
+        statusMessage.textContent = 'No transaction reference was provided.';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${apiBase}/api/payments/status/${transactionId}`);
+        const data = await response.json();
+        if (!response.ok || data.success === false) {
+          throw new Error(data?.message || data?.code || 'Payment pending');
+        }
+
+        const status = data?.data?.state || data?.data?.status;
+        statusMessage.textContent = `Your payment is ${status || 'processing'}.`;
+        statusDetails.innerHTML = `
+          <strong>Transaction ID:</strong> ${transactionId}<br/>
+          <strong>Amount:</strong> ₹${(data?.data?.amount || 0) / 100}
+        `;
+      } catch (error) {
+        console.error(error);
+        statusMessage.textContent = 'We could not confirm the payment yet.';
+        statusDetails.textContent = 'Please wait a moment and refresh this page, or reach out to support if the amount has been debited.';
+      }
+    })();
+  </script>
+</body>
+</html>

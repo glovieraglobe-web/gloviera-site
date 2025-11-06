@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Account | Gloviéra</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+<style>
+body{font-family:'Poppins',sans-serif;background:#fff7f7;color:#4f2222;padding:30px;}
+.container{max-width:800px;margin:auto;}
+h1{font-size:28px;margin-bottom:16px;}
+.profile-box{background:#fdf3f3;border-radius:12px;padding:20px;margin-bottom:30px;}
+input,select{padding:10px;border-radius:8px;border:1px solid #d9baba;width:100%;margin-top:6px;}
+button{padding:10px 14px;border:none;border-radius:8px;background:#ed9a9a;color:#240404;font-weight:600;cursor:pointer;}
+table{width:100%;border-collapse:collapse;margin-top:16px;}
+th,td{border-bottom:1px solid #e3c9c9;padding:8px;text-align:left;}
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>My Account</h1>
+    <div id="profile" class="profile-box">
+      <h2>Profile</h2>
+      <form id="profileForm">
+        <label>Name<input id="accName" required></label><br>
+        <label>Email<input id="accEmail" readonly></label><br>
+        <label>Phone<input id="accPhone"></label><br>
+        <label>Gender
+          <select id="accGender">
+            <option value="">Select</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </label><br>
+        <label>Date of Birth<input type="date" id="accDOB"></label><br><br>
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+
+    <div class="profile-box">
+      <h2>Orders</h2>
+      <table id="ordersTable">
+        <thead><tr><th>Item</th><th>Price</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer style="background:#4f2222;color:#ebd1d1;padding:22px 0;margin-top:30px;border-radius:12px;">
+    <div style="max-width:800px;margin:0 auto;padding:0 10px;">
+      <div style="display:grid;gap:20px;align-items:start;grid-template-columns:1fr;">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="https://www.instagram.com/gloviera.glam/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="instagram"></i><span>Instagram</span></a>
+          <a href="tel:+917009195109" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="phone"></i><span>7009195109</span></a>
+          <a href="tel:+918284932646" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="phone"></i><span>8284932646</span></a>
+          <a href="http://wa.me/917009195109" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="message-circle"></i><span>WhatsApp</span></a>
+        </div>
+        <div>
+          <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=30.7405139,76.6732376&z=17&output=embed" title="Gloviéra on Google Maps" style="width:320px;height:220px;border:0;border-radius:10px;"></iframe>
+          <a href="https://www.google.com/maps?q=30.7405139,76.6732376" target="_blank" rel="noopener" style="display:block;margin-top:6px;color:#ebd1d1;">Open in Google Maps</a>
+        </div>
+      </div>
+      <div style="margin-top:14px;">
+        <p>© <strong>GLOVIÉRA</strong> — Glow Beyond Beauty</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getFirestore,doc,getDoc,setDoc,collection,getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey:"AIzaSyC6LazuKUJqQw7JP1LHcI_z0S0MzyNg37Y",
+      authDomain:"gloviera-e1c92.firebaseapp.com",
+      projectId:"gloviera-e1c92",
+      storageBucket:"gloviera-e1c92.firebasestorage.app",
+      messagingSenderId:"980915433413",
+      appId:"1:980915433413:web:dcfd8fedd54b94e73a65ac"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const form = document.getElementById('profileForm');
+    const ordersBody = document.querySelector('#ordersTable tbody');
+
+    onAuthStateChanged(auth, async (user)=>{
+      if(!user){ alert("Please log in first."); location.href="/"; return; }
+      const ref = doc(db,"users",user.uid);
+      const snap = await getDoc(ref);
+      const data = snap.exists() ? snap.data() : {};
+
+      document.getElementById('accName').value = data.name || user.displayName || "";
+      document.getElementById('accEmail').value = user.email || "";
+      document.getElementById('accPhone').value = data.phone || "";
+      document.getElementById('accGender').value = data.gender || "";
+      document.getElementById('accDOB').value = data.dob || "";
+
+      // Orders
+      const ordersSnap = await getDocs(collection(db,"users",user.uid,"orders"));
+      ordersBody.innerHTML = "";
+      ordersSnap.forEach(o=>{
+        const d = o.data();
+        const row = `<tr><td>${d.title}</td><td>₹${d.amount}</td><td>${d.status}</td><td>${d.createdAt?.toDate?.().toLocaleDateString?.()||""}</td></tr>`;
+        ordersBody.insertAdjacentHTML('beforeend',row);
+      });
+    });
+
+    form.addEventListener('submit',async(e)=>{
+      e.preventDefault();
+      const user = auth.currentUser;
+      const ref = doc(db,"users",user.uid);
+      await setDoc(ref,{
+        name:accName.value,phone:accPhone.value,gender:accGender.value,dob:accDOB.value
+      },{merge:true});
+      alert("Profile updated!");
+    });
+  </script>
+  <script>
+    try { feather && feather.replace && feather.replace(); } catch (e) {}
+  </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "gloviera-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Express API for PhonePe payment orchestration and supporting webhooks.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon app.js",
+    "start": "NODE_ENV=production node app.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

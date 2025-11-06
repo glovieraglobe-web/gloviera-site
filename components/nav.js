@@ -1,0 +1,273 @@
+class GlovieraNav extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({ mode: 'open' });
+
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host {
+          display: block;
+          width: 100%;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+          background: rgba(235, 209, 209, 0.95);
+          backdrop-filter: blur(6px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+          animation: fadeInNav 0.8s ease-in-out;
+          padding-top: calc(env(safe-area-inset-top, 0px) + 2px);
+        }
+
+        @keyframes fadeInNav {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spinY {
+          from { transform: rotateY(0deg); }
+          to { transform: rotateY(360deg); }
+        }
+
+        .nav-wrapper {
+          position: relative;
+        }
+
+        nav {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 8px 20px 10px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 16px;
+          flex-wrap: wrap;
+        }
+
+        .left {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          perspective: 900px;
+        }
+
+        .logo {
+          height: 46px;
+          cursor: pointer;
+          transition: transform .3s ease, filter .3s ease;
+          transform-origin: center;
+          transform-style: preserve-3d;
+        }
+
+        :host(:not([data-platform="ios"])) .logo {
+          animation: spinY 12s linear infinite;
+        }
+
+        .logo:hover {
+          transform: scale(1.06) rotateY(0deg);
+          filter: drop-shadow(0 0 8px rgba(237,154,154,0.6));
+        }
+
+        .brand {
+          font-family: 'Poppins', sans-serif;
+          font-weight: 700;
+          font-size: 1.5rem;
+          color: #4f2222;
+          letter-spacing: 1px;
+          transition: color .3s ease, text-shadow .3s ease;
+        }
+
+        .brand:hover {
+          color: #ed9a9a;
+          text-shadow: 0 0 6px rgba(237,154,154,0.6), 0 0 10px rgba(237,154,154,0.3);
+        }
+
+        .nav-links {
+          display: flex;
+          gap: 24px;
+          align-items: center;
+        }
+
+        .nav-link {
+          text-decoration: none;
+          color: #4f2222;
+          font-weight: 600;
+          transition: color .3s ease, text-shadow .3s ease;
+        }
+
+        .nav-link:hover {
+          color: #ed9a9a;
+          text-shadow: 0 0 6px rgba(237,154,154,0.6);
+        }
+
+        .actions {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .status-spacer {
+          height: calc(env(safe-area-inset-top, 0px) + 2px);
+          width: 100%;
+        }
+
+        @media (max-width: 768px) {
+          nav { padding: 14px 16px 10px; }
+          .logo { height: 40px; }
+          .brand { font-size: 1.3rem; }
+        }
+
+        .btn-small {
+          background: transparent;
+          border: 1px solid rgba(79,34,34,0.2);
+          padding: 8px 14px;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+          color: #4f2222;
+          transition: all .3s ease;
+        }
+
+        .btn-small:hover {
+          background: #ed9a9a;
+          color: #fff;
+          box-shadow: 0 0 10px rgba(237,154,154,0.4);
+        }
+
+        .cart-badge {
+          background: #ed9a9a;
+          color: white;
+          border-radius: 999px;
+          padding: 3px 7px;
+          margin-left: 6px;
+          font-size: 0.8rem;
+          font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+          .nav-links { display: none; }
+          .brand { font-size: 1.2rem; }
+          .actions { margin-left: auto; }
+          .logo { height: 38px; }
+        }
+
+        @media (max-width: 560px) {
+          nav { flex-direction: column; align-items: stretch; gap: 12px; }
+          .left { justify-content: space-between; width: 100%; }
+          .actions {
+            width: 100%;
+            justify-content: space-between;
+          }
+          .btn-small {
+            flex: 1;
+            text-align: center;
+          }
+          .logo { height: 34px; }
+        }
+      </style>
+
+      <div class="nav-wrapper">
+        <div class="status-spacer" aria-hidden="true"></div>
+
+        <nav>
+          <div class="left">
+            <img class="logo" src="images/logo.png" alt="Gloviéra Logo" id="logo">
+            <div class="brand">GLOVIÉRA</div>
+          </div>
+
+          <div class="nav-links">
+            <a href="/" class="nav-link">Home</a>
+            <a href="#appointments" class="nav-link">Services</a>
+            <a href="products/index.html" class="nav-link">Products</a>
+            <a href="#" class="nav-link">About</a>
+            <a href="#" class="nav-link">Contact</a>
+          </div>
+
+          <div class="actions">
+            <div id="auth-section"></div>
+            <button id="cartBtn" class="btn-small">
+              Cart <span id="cartCount" class="cart-badge">0</span>
+            </button>
+          </div>
+        </nav>
+      </div>
+    `;
+
+    const ua = navigator.userAgent || navigator.vendor || window.opera || '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua) || (ua.includes('Mac') && 'ontouchend' in document);
+    this.setAttribute('data-platform', isIOS ? 'ios' : 'default');
+
+    this.renderAuth();
+
+    // Logo click → scroll to top
+    this.shadowRoot.querySelector('#logo').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Cart button
+    this.shadowRoot.querySelector('#cartBtn').addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('open-cart'));
+    });
+
+    // Events
+    window.addEventListener('auth-change', () => this.renderAuth());
+    window.addEventListener('cart-updated', () => this.updateCartCount());
+    this.updateCartCount();
+  }
+
+  updateCartCount() {
+    const countEl = this.shadowRoot.getElementById('cartCount');
+    const cart = JSON.parse(localStorage.getItem('gloviera_cart') || '[]');
+    countEl.textContent = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+  }
+
+  renderAuth() {
+    const auth = this.shadowRoot.getElementById('auth-section');
+    const user = JSON.parse(localStorage.getItem('gloviera_user') || 'null');
+    auth.innerHTML = '';
+
+    if (user && user.name) {
+      const photo = user.photoURL || 'images/default-profile.png';
+
+      auth.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;">
+          <img src="${photo}" alt="Profile" id="profilePic"
+               style="width:40px;height:40px;border-radius:50%;cursor:pointer;object-fit:cover;border:2px solid #ed9a9a;box-shadow:0 0 5px rgba(0,0,0,0.1)">
+          <button id="logoutBtn" class="btn-small">Logout</button>
+        </div>
+      `;
+
+      this.shadowRoot.querySelector('#logoutBtn').addEventListener('click', () => {
+        // Ask app to sign out via Firebase if available
+        window.dispatchEvent(new CustomEvent('request-logout'));
+      });
+
+      this.shadowRoot.querySelector('#profilePic').addEventListener('click', () => {
+        window.location.href = 'account.html';
+      });
+
+    } else {
+      auth.innerHTML = `
+        <button id="signupBtn" class="btn-small">Sign Up</button>
+        <button id="loginBtn" class="btn-small">Log In</button>
+      `;
+
+      this.shadowRoot.querySelector('#signupBtn').addEventListener('click', () => {
+        if (typeof window.openAuth === 'function') {
+          window.openAuth('signup');
+        } else {
+          window.dispatchEvent(new CustomEvent('open-signup'));
+        }
+      });
+
+      this.shadowRoot.querySelector('#loginBtn').addEventListener('click', () => {
+        if (typeof window.openAuth === 'function') {
+          window.openAuth('login');
+        } else {
+          window.dispatchEvent(new CustomEvent('open-signin'));
+        }
+      });
+    }
+  }
+}
+
+customElements.define('gloviera-nav', GlovieraNav);

@@ -1,0 +1,38 @@
+<style>
+  .frame {
+    width: 120px;
+    height: 38px;
+    background: rgba(18,18,18,0.9);
+    border-radius: 20px;
+    position: relative;
+    margin: 100px auto;
+    overflow: visible;
+    clip-path: inset(-10px -12px -20px -12px);
+  }
+  .orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 132px;
+    height: 56px;
+    margin: -28px -66px;
+    animation: orbit 8s linear infinite;
+    transform-origin: center;
+  }
+  .logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    transform-origin: -46px 0;
+    animation: spin 8s linear infinite;
+  }
+  @keyframes orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+</style>
+<div class="frame">
+  <div class="orbit">
+    <img src="images/logo.png" class="logo">
+  </div>
+</div>
