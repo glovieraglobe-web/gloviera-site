@@ -636,25 +636,32 @@ class GlovieraAppointments extends HTMLElement {
     const APPOINTMENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbxA59ciVHpwHh1O_J4vpWL8J1tFD1I0VmWshjEMT-C_F9AAL8BIHEAv2OUuh8mAcGQ/exec";
 
     const submitAppointment = async (payload) => {
-      const res = await fetch(APPOINTMENT_ENDPOINT, {
+      const response = await fetch(APPOINTMENT_ENDPOINT, {
         method: "POST",
-        mode: "cors",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload)
       });
 
-      if (!res.ok) {
-        const errorText = await res.text().catch(() => '');
-        throw new Error(`HTTP ${res.status} ${errorText}`.trim());
+      // Apps Script responses can be opaque when CORS headers are absent.
+      if (response.type === "opaque") return true;
+
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => "");
+        throw new Error(`HTTP ${response.status} ${errorText}`.trim());
       }
 
-      // Make webhook returns an empty body by default; treat that as success.
-      const contentType = res.headers.get("content-type") || "";
-      if (contentType.includes("application/json")) {
-        const data = await res.json().catch(() => ({}));
-        if (data.status && data.status !== "success") {
-          throw new Error(data.message || "Unexpected response from server");
-        }
+      const raw = await response.text().catch(() => "");
+      if (!raw) return true;
+
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        return true;
+      }
+
+      if (data.status && data.status !== "success") {
+        throw new Error(data.message || "Unexpected response from server");
       }
       return true;
     };
