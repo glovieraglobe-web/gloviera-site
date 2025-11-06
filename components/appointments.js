@@ -210,12 +210,13 @@ const buildServiceSummaryHtml = (details) => {
   </table>`;
 };
 
-const computePricingSummary = (serviceNames, paymentMethod) => {
+const computePricingSummary = (serviceNames, paymentMethod = '') => {
   const details = serviceNames.map(resolveServiceMeta);
   const subtotal = details.reduce((sum, item) => sum + (Number.isFinite(item.price) ? item.price : 0), 0);
-  const discountRate = paymentMethod === 'Pay Now (Get 5% Off!)' ? 0.05 : 0;
+  const normalizedPay = (paymentMethod || '').toLowerCase();
+  const discountRate = normalizedPay.includes('pay now') ? 0.05 : 0;
   const discountAmount = Math.round(subtotal * discountRate);
-  const finalTotal = Math.max(0, subtotal - discountAmount);
+  const finalTotal = Math.max(0, Math.round(subtotal - discountAmount));
   return {
     details,
     subtotal,
@@ -514,7 +515,7 @@ class GlovieraAppointments extends HTMLElement {
           <label>Payment Method:</label>
           <select id="b_pay" required>
             <option value="Pay at Salon">Pay at Salon</option>
-            <option value="Pay Now">Pay Now (Get 5% Off!)</option>
+            <option value="Pay Now (Get 5% Off!)">Pay Now (Get 5% Off!)</option>
           </select>
 
           <div class="totals-card" id="totalsSummary" aria-live="polite">
@@ -573,7 +574,8 @@ class GlovieraAppointments extends HTMLElement {
       subtotalEl.textContent = formatCurrencyINR(summary.subtotal);
       if (summary.discountAmount > 0) {
         discountRow.hidden = false;
-        discountValueEl.textContent = `- ${formatCurrencyINR(summary.discountAmount)} (5% online offer)`;
+        const percentLabel = Math.round(summary.discountRate * 100);
+        discountValueEl.textContent = `- ${formatCurrencyINR(summary.discountAmount)} (${percentLabel}% online offer)`;
       } else {
         discountRow.hidden = true;
       }

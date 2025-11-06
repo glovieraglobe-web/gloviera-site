@@ -37,33 +37,33 @@
         <div class="title">GLOVIÉRA</div>
       </div>
       <div class="content">
-        <h1>Hi {{1.name}}, your appointment is confirmed!</h1>
+        <h1>Hi <?= data.name ?>, your appointment is confirmed!</h1>
         <p>Thank you for choosing <strong>GLOVIÉRA Unisex Salon</strong>. We’re excited to pamper you soon.</p>
 
         <div class="details">
           <dl>
             <dt>Service(s)</dt>
             <dd>
-              {{1.serviceSummaryHtml}}
+              <?!= data.serviceSummaryHtml ?>
             </dd>
 
             <dt>Date</dt>
-            <dd>{{1.date}}</dd>
+            <dd><?= data.date ?></dd>
 
             <dt>Time</dt>
-            <dd>{{1.time}}</dd>
+            <dd><?= data.time ?></dd>
 
             <dt>Payment Method</dt>
-            <dd>{{1.pay}}</dd>
+            <dd><?= data.pay ?></dd>
 
             <dt>Total Cost</dt>
-            <dd>₹{{1.totals.subtotal}}</dd>
+            <dd><?= formatCurrency(data.totals.subtotal) ?></dd>
 
             <dt>Online Payment Discount</dt>
-            <dd>{{if(greater(1.totals.discountAmount; 0); concat("- ₹"; 1.totals.discountAmount); "—")}}</dd>
+            <dd><?= formatDiscount(data.totals.discountAmount) ?></dd>
 
             <dt>Final Price</dt>
-            <dd><strong>₹{{1.totals.finalTotal}}</strong></dd>
+            <dd><strong><?= formatCurrency(data.totals.finalTotal) ?></strong></dd>
           </dl>
         </div>
 
