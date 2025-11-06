@@ -1,3 +1,232 @@
+const SERVICE_CATALOG = [
+  ["Men's Haircut", "S1", 200],
+  ["Men's Trimming", "S2", 100],
+  ["Men's Blow Dry", "S3", 100],
+  ["Men's Head Massage", "S4", 200],
+  ["Men's Streax Spa", "S5", 400],
+  ["Men's Matrix Spa", "S6", 500],
+  ["Men's Loreal Spa", "S7", 700],
+  ["Men's Streax colour", "S8", 400],
+  ["Men's Matrix colour", "S9", 600],
+  ["Men's Loreal (INOA)", "S10", 700],
+  ["Men's Colour", "S11", 900],
+  ["Men's Keratin", "S12", 1000],
+  ["Men's Smoothening", "S13", 1000],
+  ["Men's Papaya Facial", "S14", 700],
+  ["Men's Wine Facial", "S15", 1000],
+  ["Men's Ozone Facial", "S16", 2000],
+  ["Mens's Kaya Facial", "S17", 2000],
+  ["Men's O3+ Bridial Facial", "S18", 2000],
+  ["Men's Cheryl's Facial", "S19", 2400],
+  ["Men's Diamond Facial", "S20", 1500],
+  ["Men's Oxy Facial", "S21", 1000],
+  ["Men's Haldi Chandan Facial", "S22", 1000],
+  ["Men's Fruit Bleach", "S23", 250],
+  ["Men's Fem Bleach", "S24", 250],
+  ["Men's Oxy Bleach", "S25", 400],
+  ["Men's Gold Bleach", "S26", 400],
+  ["Men's D-Tan Bleach", "S27", 600],
+  ["Men's Cheryl Bleach", "S28", 600],
+  ["Men's O3 Bleach", "S29", 400],
+  ["Men's Cleanup", "S30", 500],
+  ["Men's Fruit Cleanup", "S31", 500],
+  ["Men's Papaya Cleanup", "S32", 600],
+  ["Men's Lemon Cleanup", "S33", 600],
+  ["Men's Oxy Cleanup", "S34", 600],
+  ["Men's Diamond Cleanup", "S35", 600],
+  ["Men's Wine Cleanup", "S36", 600],
+  ["Men's Haldi Chandan Cleanup", "S37", 600],
+  ["Men's Kaya Cleanup", "S38", 800],
+  ["Men's Lotus Cleanup", "S39", 1100],
+  ["Men's Ozone Cleanup", "S40", 1300],
+  ["Men's O3+ Cleanup", "S41", 1600],
+  ["Men's Cheryl's Cleanup", "S42", 1600],
+  ["Women's Threading Eyebrows", "S43", 40],
+  ["Women's Threading Upper lips", "S44", 20],
+  ["Women's Threading Chin", "S45", 20],
+  ["Women's Threading Forehead", "S46", 20],
+  ["Women's Threading Side lock", "S47", 100],
+  ["Women's Waxing Chin", "S48", 150],
+  ["Women's Waxing Upper lips", "S49", 100],
+  ["Women's Waxing Side lock", "S50", 200],
+  ["Women's Waxing Arms", "S51", 400],
+  ["Women's Waxing Half legs", "S52", 300],
+  ["Women's Waxing Full legs", "S53", 600],
+  ["Women's Waxing V wax", "S54", 800],
+  ["Women's Waxing Full body", "S55", 2500],
+  ["Women's Papaya Facial", "S56", 700],
+  ["Women's Wine Facial", "S57", 1000],
+  ["Women's Ozone Facial", "S58", 2000],
+  ["Womens's Kaya Facial", "S59", 2000],
+  ["Women's O3+ Bridial Facial", "S60", 2000],
+  ["Women's Cheryl's Facial", "S61", 2400],
+  ["Women's Diamond Facial", "S62", 1500],
+  ["Women's Oxy Facial", "S63", 1000],
+  ["Women's Haldi Chandan Facial", "S64", 1000],
+  ["Women's Fruit Bleach", "S65", 250],
+  ["Women's Fem Bleach", "S66", 250],
+  ["Women's Oxy Bleach", "S67", 400],
+  ["Women's Gold Bleach", "S68", 400],
+  ["Women's D-Tan Bleach", "S69", 600],
+  ["Women's Cheryl Bleach", "S70", 600],
+  ["Women's O3 Bleach", "S71", 400],
+  ["Women's Cleanup", "S72", 500],
+  ["Women's Fruit Cleanup", "S73", 500],
+  ["Women's Papaya Cleanup", "S74", 600],
+  ["Women's Lemon Cleanup", "S75", 600],
+  ["Women's Oxy Cleanup", "S76", 600],
+  ["Women's Diamond Cleanup", "S77", 600],
+  ["Women's Wine Cleanup", "S78", 600],
+  ["Women's Haldi Chandan Cleanup", "S79", 600],
+  ["Women's Kaya Cleanup", "S80", 800],
+  ["Women's Lotus Cleanup", "S81", 1100],
+  ["Women's Ozone Cleanup", "S82", 1300],
+  ["Women's O3+ Cleanup", "S83", 1600],
+  ["Women's Cheryl's Cleanup", "S84", 1600],
+  ["Women's Trimming", "S85", 250],
+  ["Women's Bob cut", "S86", 350],
+  ["Women's Step layer", "S87", 350],
+  ["Women's Layer Cut", "S88", 400],
+  ["Women's Feather Cut", "S89", 500],
+  ["Women's Wedge Cut", "S90", 600],
+  ["Women's Blow Dry with Head Wash", "S91", 350],
+  ["Women's Ironing", "S92", 400],
+  ["Women's Curls with Ironing", "S93", 450],
+  ["Women's Crimping", "S94", 500],
+  ["Women's Curls", "S95", 550],
+  ["Women's Hairdo", "S96", 650],
+  ["Women's Highlights [Per streak]", "S97", 250],
+  ["Women's Streax Root Touchup", "S98", 500],
+  ["Women's Matrix Root Touchup", "S99", 600],
+  ["Women's Loreal Root Touchup", "S100", 700],
+  ["Women's Loreal (INOA) Root Touchup", "S101", 900],
+  ["Women's Global Colour", "S102", 4500],
+  ["Women's Head massage", "S103", 350],
+  ["Women's Streak Spa", "S104", 500],
+  ["Women's Matrix Spa", "S105", 600],
+  ["Women's Loreal Spa", "S106", 700],
+  ["Women's Dry Damage Hair treatment", "S107", 1500],
+  ["Women's Anti dandruff Hair treatment", "S108", 1500],
+  ["Women's Anti hairfall Hair treatment", "S109", 1500],
+  ["Women's Kerafine Keratin Hair treatment", "S110", 4000],
+  ["Women's GK Keratin Hair Treatment", "S111", 6000],
+  ["Women's Matrix Smoothening Loreal Treatment", "S112", 4000],
+  ["Women's Smoothening Schwarzkopf", "S113", 4500],
+  ["Women's Smoothening Hair treatment", "S114", 5000],
+  ["Women's Botox Hair treatment", "S115", 5000],
+  ["Women's Kerabind Hair treatment", "S116", 7000],
+  ["Women's Kerashine Hair treatment", "S117", 8000],
+  ["Women's Nail Gel Polish", "S118", 700],
+  ["Women's Nail Gel Overlays", "S119", 1200],
+  ["Women's Nail Extension", "S120", 1800],
+  ["Women's Nail Extensions Removal", "S121", 350],
+  ["Women's Classic Pedicure", "S122", 450],
+  ["Women's Crystal Pedicure", "S123", 650],
+  ["Women's Classic Manicure", "S124", 350],
+  ["Women's Crystal Manicure", "S125", 450],
+  ["Women's Therapeutic Foot Massage", "S126", 350],
+  ["Women's Kryolan Party Makeup", "S127", 2500],
+  ["Women's Huda Beauty Party Makeup", "S128", 3000],
+  ["Women's MAC Party Makeup", "S129", 3500],
+  ["Women's HD Party Makeup", "S130", 5000],
+  ["Women's Kryolan Engagement Makeup", "S131", 5000],
+  ["Women's Huda Beauty Engagement Makeup", "S132", 6000],
+  ["Women's MAC Engagement Makeup", "S133", 7000],
+  ["Women's HD Engagement Makeup", "S134", 9000],
+  ["Women's Kryolan Bridal Makeup", "S135", 20000],
+  ["Women's Huda Beauty Bridal Makeup", "S136", 25000],
+  ["Women's MAC Bridal Makeup", "S137", 30000],
+  ["Women's HD Bridal Makeup", "S138", 40000],
+];
+
+const normalizeServiceKey = (label = '') =>
+  label
+    .normalize('NFKD')
+    .replace(/[’']/g, '')
+    .replace(/[^a-z0-9]+/gi, '')
+    .toLowerCase();
+
+const SERVICE_LOOKUP = new Map(
+  SERVICE_CATALOG.map(([label, code, price]) => [
+    normalizeServiceKey(label),
+    { label, code, price }
+  ])
+);
+
+const SERVICE_ALIASES = new Map([
+  [normalizeServiceKey("Men's Kaya Facial"), normalizeServiceKey("Mens's Kaya Facial")],
+  [normalizeServiceKey("Men's O3+ Bridal Facial"), normalizeServiceKey("Men's O3+ Bridial Facial")],
+  [normalizeServiceKey("Women's Kaya Facial"), normalizeServiceKey("Womens's Kaya Facial")],
+  [normalizeServiceKey("Women's O3+ Bridal Facial"), normalizeServiceKey("Women's O3+ Bridial Facial")],
+  [normalizeServiceKey("Women's Streax Spa"), normalizeServiceKey("Women's Streak Spa")],
+  [normalizeServiceKey("Women's Kerabhin Hair treatment"), normalizeServiceKey("Women's Kerabind Hair treatment")]
+]);
+
+const resolveServiceMeta = (label) => {
+  const key = normalizeServiceKey(label);
+  let base = SERVICE_LOOKUP.get(key);
+  if (!base) {
+    const alias = SERVICE_ALIASES.get(key);
+    if (alias) {
+      base = SERVICE_LOOKUP.get(alias);
+    }
+  }
+  if (base) {
+    return { name: label, code: base.code, price: Number(base.price) || 0, canonicalName: base.label };
+  }
+  return { name: label, code: null, price: 0, missing: true };
+};
+
+const formatCurrencyINR = (amount) => {
+  const safe = Number.isFinite(amount) ? amount : 0;
+  return `₹${Math.round(safe).toLocaleString('en-IN')}`;
+};
+
+const escapeHtml = (input = '') =>
+  String(input)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+const buildServiceSummaryHtml = (details) => {
+  if (!details.length) {
+    return '<p class="service-empty">No services selected.</p>';
+  }
+  const rows = details
+    .map(item => {
+      const name = escapeHtml(item.name || item.canonicalName || 'Service');
+      const price = formatCurrencyINR(item.price || 0);
+      const code = item.code ? `<span class="service-code">${escapeHtml(item.code)}</span>` : '';
+      return `<tr>
+        <td class="service-name">${name}${code}</td>
+        <td class="service-price">${price}</td>
+      </tr>`;
+    })
+    .join('');
+  return `<table class="service-table" role="presentation" cellpadding="0" cellspacing="0">
+    <tbody>${rows}</tbody>
+  </table>`;
+};
+
+const computePricingSummary = (serviceNames, paymentMethod) => {
+  const details = serviceNames.map(resolveServiceMeta);
+  const subtotal = details.reduce((sum, item) => sum + (Number.isFinite(item.price) ? item.price : 0), 0);
+  const discountRate = paymentMethod === 'Pay Now (Get 5% Off!)' ? 0.05 : 0;
+  const discountAmount = Math.round(subtotal * discountRate);
+  const finalTotal = Math.max(0, subtotal - discountAmount);
+  return {
+    details,
+    subtotal,
+    discountRate,
+    discountAmount,
+    finalTotal,
+    currency: 'INR',
+    htmlBreakdown: buildServiceSummaryHtml(details)
+  };
+};
+
 class GlovieraAppointments extends HTMLElement {
   connectedCallback() {
     // Synced with images/salon services  - Sheet1.pdf (S1–S43)
@@ -169,6 +398,26 @@ class GlovieraAppointments extends HTMLElement {
         .chip.active{background:#b05f6d;color:#fff;border-color:#b05f6d}
         .chip .remove{background:transparent;border:none;color:inherit;font-weight:700;cursor:pointer;line-height:1}
         .service-list{display:none}
+        .totals-card{
+          margin-top:14px;
+          padding:16px;
+          border-radius:14px;
+          background:#fff7f7;
+          border:1px solid rgba(176,95,109,0.25);
+          display:grid;
+          gap:10px;
+        }
+        .total-row{
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          font-size:15px;
+        }
+        .total-row span{color:#4f2222}
+        .total-row strong{font-weight:600;color:#4f2222}
+        .total-row.discount span{color:#b37070}
+        .total-row.discount strong{color:#b37070}
+        .total-row.total-due strong{font-size:18px;color:#b05f6d}
         #bookForm {
           display:grid;
           gap:12px;
@@ -268,6 +517,21 @@ class GlovieraAppointments extends HTMLElement {
             <option value="Pay Now">Pay Now (Get 5% Off!)</option>
           </select>
 
+          <div class="totals-card" id="totalsSummary" aria-live="polite">
+            <div class="total-row">
+              <span>Subtotal</span>
+              <strong id="subtotalValue">₹0</strong>
+            </div>
+            <div class="total-row discount" id="discountRow" hidden>
+              <span>Pay Now Discount</span>
+              <strong id="discountValue">- ₹0</strong>
+            </div>
+            <div class="total-row total-due">
+              <span>Total Payable</span>
+              <strong id="finalValue">₹0</strong>
+            </div>
+          </div>
+
           <button type="submit">Confirm Booking</button>
           <div id="bookMsg">Appointment booked successfully! 🎉</div>
         </form>
@@ -278,6 +542,11 @@ class GlovieraAppointments extends HTMLElement {
     const serviceSelect = this.querySelector('#b_service');
     const selectedChips = this.querySelector('#selectedChips');
     const quickPicksEl = this.querySelector('#quickPicks');
+    const paymentSelect = this.querySelector('#b_pay');
+    const subtotalEl = this.querySelector('#subtotalValue');
+    const discountRow = this.querySelector('#discountRow');
+    const discountValueEl = this.querySelector('#discountValue');
+    const finalValueEl = this.querySelector('#finalValue');
 
     const allServices = [...servicesMen, ...servicesWomen];
     const quickPicks = [
@@ -297,6 +566,20 @@ class GlovieraAppointments extends HTMLElement {
 
     let selected = new Set(Array.from(serviceSelect.selectedOptions).map(o=>o.value));
 
+    const getSelectedNames = () => Array.from(selected);
+
+    const renderTotals = () => {
+      const summary = computePricingSummary(getSelectedNames(), paymentSelect.value);
+      subtotalEl.textContent = formatCurrencyINR(summary.subtotal);
+      if (summary.discountAmount > 0) {
+        discountRow.hidden = false;
+        discountValueEl.textContent = `- ${formatCurrencyINR(summary.discountAmount)} (5% online offer)`;
+      } else {
+        discountRow.hidden = true;
+      }
+      finalValueEl.textContent = formatCurrencyINR(summary.finalTotal);
+    };
+
     const syncSelectFromSet = () => {
       Array.from(serviceSelect.options).forEach(o => { o.selected = selected.has(o.value); });
     };
@@ -311,7 +594,12 @@ class GlovieraAppointments extends HTMLElement {
       quickPicksEl.innerHTML = quickPicks.map(s=>`<span class="chip${selected.has(s)?' active':''}" data-value="${s}">${s}</span>`).join('');
     };
 
-    const refreshUI = () => { syncSelectFromSet(); renderSelectedChips(); renderQuickPicks(); };
+    const refreshUI = () => {
+      syncSelectFromSet();
+      renderSelectedChips();
+      renderQuickPicks();
+      renderTotals();
+    };
 
     // Allow simple click-to-toggle for multi-select (no Ctrl/Cmd needed)
     serviceSelect.addEventListener('mousedown', (e) => {
@@ -344,7 +632,8 @@ class GlovieraAppointments extends HTMLElement {
     });
 
     refreshUI();
-    const APPOINTMENT_ENDPOINT = "https://hook.eu2.make.com/t4iddm5seu8scwjknftkfykr8sarktyy";
+    paymentSelect.addEventListener('change', renderTotals);
+    const APPOINTMENT_ENDPOINT = "https://script.google.com/macros/s/AKfycbxA59ciVHpwHh1O_J4vpWL8J1tFD1I0VmWshjEMT-C_F9AAL8BIHEAv2OUuh8mAcGQ/exec";
 
     const submitAppointment = async (payload) => {
       const res = await fetch(APPOINTMENT_ENDPOINT, {
@@ -375,16 +664,34 @@ class GlovieraAppointments extends HTMLElement {
       const name = this.querySelector('#b_name').value;
       const email = this.querySelector('#b_email').value;
       const phone = this.querySelector('#b_phone').value;
-      const services = Array.from(serviceSelect.selectedOptions).map(o=>o.value);
+      const services = getSelectedNames();
       const date = this.querySelector('#b_date').value;
       const time = this.querySelector('#b_time').value;
       const pay = this.querySelector('#b_pay').value;
+      const pricing = computePricingSummary(services, pay);
 
       const msg = this.querySelector('#bookMsg');
       msg.style.display = 'block';
       setTimeout(()=> msg.style.display = 'none',4000);
 
-      submitAppointment({ name, email, phone, services, date, time, pay })
+      submitAppointment({
+        name,
+        email,
+        phone,
+        services: pricing.details,
+        serviceNames: services,
+        serviceSummaryHtml: pricing.htmlBreakdown,
+        date,
+        time,
+        pay,
+        totals: {
+          subtotal: pricing.subtotal,
+          discountPercent: Math.round(pricing.discountRate * 100),
+          discountAmount: pricing.discountAmount,
+          finalTotal: pricing.finalTotal,
+          currency: pricing.currency
+        }
+      })
         .then(() => {
           alert("✅ Appointment confirmed! Check your email for details.");
         })

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>GLOVIÉRA Appointment</title>
+  <style>
+    html, body { margin:0; padding:0; background:#fdf9f9; font-family:'Poppins', Arial, sans-serif; color:#4f2222; }
+    .outer { width:100%; background:#fdf9f9; padding:24px 0; }
+    .card { max-width:560px; margin:0 auto; background:#fff; border-radius:18px; box-shadow:0 12px 30px rgba(237,154,154,0.25); border:1px solid rgba(237,154,154,0.25); overflow:hidden; }
+    .header { display:flex; align-items:center; gap:16px; padding:22px 24px; background:linear-gradient(135deg,#f7d6d6,#fbe8e8); }
+    .header img { width:72px; height:72px; border-radius:12px; object-fit:contain; background:#fff; padding:6px; box-shadow:0 8px 20px rgba(237,154,154,0.35); }
+    .header .title { font-size:22px; font-weight:700; letter-spacing:0.08em; color:#4f2222; }
+    .content { padding:28px 24px 32px; }
+    .content h1 { font-size:20px; margin:0 0 12px; color:#4f2222; }
+    .content p { margin:0 0 14px; line-height:1.6; }
+    .details { margin:24px 0; border-top:1px solid rgba(237,154,154,0.35); border-bottom:1px solid rgba(237,154,154,0.35); padding:16px 0; }
+    .details dt { font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:12px; margin-bottom:4px; color:#b37070; }
+    .details dd { margin:0 0 14px; font-size:15px; color:#4f2222; }
+    .service-table { width:100%; border-collapse:collapse; margin:8px 0 4px; }
+    .service-table td { padding:6px 0; font-size:14px; border-bottom:1px solid rgba(237,154,154,0.2); }
+    .service-table tr:last-child td { border-bottom:none; }
+    .service-name { color:#4f2222; }
+    .service-code { display:inline-block; margin-left:6px; font-size:11px; color:#b37070; background:rgba(237,154,154,0.18); padding:2px 6px; border-radius:999px; }
+    .service-price { text-align:right; font-weight:600; color:#4f2222; }
+    .service-empty { font-size:14px; color:#b37070; margin:6px 0; }
+    .cta { display:inline-block; padding:12px 28px; background:#ed9a9a; color:#fff !important; font-weight:600; text-decoration:none; border-radius:999px; letter-spacing:0.08em; box-shadow:0 10px 25px rgba(237,154,154,0.35); }
+    .cta:hover { background:#e27f7f; }
+    .footer { background:#4f2222; color:#f7d6d6; text-align:center; padding:16px 12px; font-size:13px; }
+    .footer a { color:#fbe8e8; text-decoration:none; font-weight:600; }
+  </style>
+</head>
+<body>
+  <div class="outer">
+    <div class="card">
+      <div class="header">
+        <img src="https://drive.google.com/uc?id=1d-QYgQt43l67YfTPAmFY_LQwLGCLE_z_" alt="GLOVIÉRA Crest">
+        <div class="title">GLOVIÉRA</div>
+      </div>
+      <div class="content">
+        <h1>Hi {{1.name}}, your appointment is confirmed!</h1>
+        <p>Thank you for choosing <strong>GLOVIÉRA Unisex Salon</strong>. We’re excited to pamper you soon.</p>
+
+        <div class="details">
+          <dl>
+            <dt>Service(s)</dt>
+            <dd>
+              {{1.serviceSummaryHtml}}
+            </dd>
+
+            <dt>Date</dt>
+            <dd>{{1.date}}</dd>
+
+            <dt>Time</dt>
+            <dd>{{1.time}}</dd>
+
+            <dt>Payment Method</dt>
+            <dd>{{1.pay}}</dd>
+
+            <dt>Total Cost</dt>
+            <dd>₹{{1.totals.subtotal}}</dd>
+
+            <dt>Online Payment Discount</dt>
+            <dd>{{if(greater(1.totals.discountAmount; 0); concat("- ₹"; 1.totals.discountAmount); "—")}}</dd>
+
+            <dt>Final Price</dt>
+            <dd><strong>₹{{1.totals.finalTotal}}</strong></dd>
+          </dl>
+        </div>
+
+        <p>📍 Visit us: <a href="https://maps.app.goo.gl/a63k8KNmA7zCpK9R9">View on Google Maps</a></p>
+        <p>If you need to reschedule, call <a href="tel:+917009195109">7009195109</a> or reply to this email.</p>
+
+        <p style="margin-top:24px;">
+          <a class="cta" href="https://www.instagram.com/gloviera.glam/">Follow us on Instagram</a>
+        </p>
+      </div>
+
+      <div class="footer">
+        GLOVIÉRA Unisex Salon · 7009195109 · <a href="https://gloviera.com">gloviera.com</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
