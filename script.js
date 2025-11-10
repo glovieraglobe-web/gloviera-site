@@ -6,7 +6,7 @@ window.GLOVIERA_FORCE_PAYMENT_MOCK = true;
 
 window.GLOVIERA_ORDER_WEBHOOK =
   window.GLOVIERA_ORDER_WEBHOOK ||
-  'https://script.google.com/macros/s/AKfycbyahuy1wdz4eAd0cpuwdfpk794RxZlGk-8767V04Vz_x3KHpoAdEkCcVgsaPA5T3Kz8ng/exec';
+  'https://script.google.com/macros/s/AKfycbz20QkK-3594QeDQAxxk-YdPj1nsUsgMJmyO-gm9Te1lLK1AMH1BDlVshr_E-lldUs9/exec';
 
 function modal(content) {
   const overlay = document.createElement('div');

@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>My Account | Gloviéra</title>
 <link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 <style>
 body{font-family:'Poppins',sans-serif;background:#fff7f7;color:#4f2222;padding:30px;}
@@ -15,9 +18,34 @@ input,select{padding:10px;border-radius:8px;border:1px solid #d9baba;width:100%;
 button{padding:10px 14px;border:none;border-radius:8px;background:#ed9a9a;color:#240404;font-weight:600;cursor:pointer;}
 table{width:100%;border-collapse:collapse;margin-top:16px;}
 th,td{border-bottom:1px solid #e3c9c9;padding:8px;text-align:left;}
+.account-nav{background:#fdf3f3;border-radius:16px;padding:12px 20px;margin:0 auto 24px;box-shadow:0 15px 40px rgba(79,34,34,0.08);}
+.nav-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.brand-link{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nav-logo{width:58px;height:58px;object-fit:contain;animation:logoGlow 3s ease-in-out infinite;transition:transform .3s ease;}
+.nav-logo:hover{transform:scale(1.05);}
+.brand-glow{font-size:1.7rem;font-weight:700;color:#4f2222;letter-spacing:1px;text-transform:uppercase;animation:textGlow 2.8s ease-in-out infinite;}
+.home-btn{background:#4f2222;color:#fff;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:600;transition:transform .2s ease,box-shadow .2s ease;}
+.home-btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(79,34,34,0.2);}
+.home-btn:focus-visible{outline:2px solid #ed9a9a;outline-offset:3px;}
+@keyframes textGlow{0%{text-shadow:0 0 4px rgba(237,154,154,0.6),0 0 10px rgba(237,154,154,0.3);}50%{text-shadow:0 0 10px rgba(237,154,154,0.9),0 0 20px rgba(237,154,154,0.5);}100%{text-shadow:0 0 4px rgba(237,154,154,0.6),0 0 10px rgba(237,154,154,0.3);}}
+@keyframes logoGlow{0%{filter:drop-shadow(0 0 2px rgba(237,154,154,0.4));}50%{filter:drop-shadow(0 0 10px rgba(237,154,154,0.85));}100%{filter:drop-shadow(0 0 2px rgba(237,154,154,0.4));}}
+@media(max-width:640px){
+  body{padding:20px;}
+  .nav-inner{flex-direction:column;gap:16px;text-align:center;}
+  .home-btn{width:100%;}
+}
 </style>
 </head>
 <body>
+  <header class="account-nav">
+    <div class="nav-inner">
+      <a href="/" class="brand-link">
+        <img src="images/logo.png" alt="Gloviéra logo" class="nav-logo">
+        <span class="brand-glow">Gloviéra</span>
+      </a>
+      <a href="/" class="home-btn">&larr; Back to Home</a>
+    </div>
+  </header>
   <div class="container">
     <h1>My Account</h1>
     <div id="profile" class="profile-box">
