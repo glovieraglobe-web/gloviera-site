@@ -27,6 +27,18 @@ class GlovieraNav extends HTMLElement {
           to { transform: rotateY(360deg); }
         }
 
+        @keyframes glowText {
+          0% { text-shadow: 0 0 4px rgba(237,154,154,0.4), 0 0 8px rgba(237,154,154,0.3); }
+          50% { text-shadow: 0 0 12px rgba(237,154,154,0.9), 0 0 22px rgba(237,154,154,0.45); }
+          100% { text-shadow: 0 0 4px rgba(237,154,154,0.4), 0 0 8px rgba(237,154,154,0.3); }
+        }
+
+        @keyframes haloPulse {
+          0% { filter: drop-shadow(0 0 2px rgba(237,154,154,0.35)); }
+          50% { filter: drop-shadow(0 0 12px rgba(237,154,154,0.85)); }
+          100% { filter: drop-shadow(0 0 2px rgba(237,154,154,0.35)); }
+        }
+
         .nav-wrapper {
           position: relative;
         }
@@ -56,7 +68,7 @@ class GlovieraNav extends HTMLElement {
           transition: transform .3s ease, filter .3s ease;
           transform-origin: center;
           transform-style: preserve-3d;
-          animation: spinY 10s linear infinite;
+          animation: spinY 10s linear infinite, haloPulse 3.2s ease-in-out infinite;
           display: block;
         }
 
@@ -73,6 +85,8 @@ class GlovieraNav extends HTMLElement {
           color: #4f2222;
           letter-spacing: 1px;
           transition: color .3s ease, text-shadow .3s ease;
+          text-transform: uppercase;
+          animation: glowText 3s ease-in-out infinite;
         }
 
         .brand:hover {
@@ -130,6 +144,26 @@ class GlovieraNav extends HTMLElement {
           background: #ed9a9a;
           color: #fff;
           box-shadow: 0 0 10px rgba(237,154,154,0.4);
+        }
+
+        .back-home {
+          display: none;
+          align-items: center;
+          gap: 6px;
+          background: #4f2222;
+          color: #fff;
+          border-color: transparent;
+          text-decoration: none;
+          box-shadow: 0 8px 18px rgba(79,34,34,0.2);
+        }
+
+        .back-home::before {
+          content: "\\2190";
+          font-weight: 700;
+        }
+
+        .back-home.show {
+          display: inline-flex;
         }
 
         .cart-badge {
@@ -201,6 +235,7 @@ class GlovieraNav extends HTMLElement {
           </div>
 
           <div class="actions">
+            <a href="/" class="btn-small back-home" id="backHomeBtn">Back to Home</a>
             <div id="auth-section"></div>
             <button id="cartBtn" class="btn-small">
               Cart <span id="cartCount" class="cart-badge">0</span>
@@ -231,12 +266,21 @@ class GlovieraNav extends HTMLElement {
     window.addEventListener('auth-change', () => this.renderAuth());
     window.addEventListener('cart-updated', () => this.updateCartCount());
     this.updateCartCount();
+    this.toggleBackHome();
   }
 
   updateCartCount() {
     const countEl = this.shadowRoot.getElementById('cartCount');
     const cart = JSON.parse(localStorage.getItem('gloviera_cart') || '[]');
     countEl.textContent = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+  }
+
+  toggleBackHome() {
+    const backBtn = this.shadowRoot.getElementById('backHomeBtn');
+    if (!backBtn) return;
+    const path = (window.location.pathname || '').toLowerCase();
+    const isAccount = path.includes('account');
+    backBtn.classList.toggle('show', isAccount);
   }
 
   renderAuth() {
