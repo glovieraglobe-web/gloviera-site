@@ -10,92 +10,249 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 <style>
-body{font-family:'Poppins',sans-serif;background:#fff7f7;color:#4f2222;padding:30px;}
-.container{max-width:800px;margin:auto;}
-h1{font-size:28px;margin-bottom:16px;}
-.profile-box{background:#fdf3f3;border-radius:12px;padding:20px;margin-bottom:30px;}
-input,select{padding:10px;border-radius:8px;border:1px solid #d9baba;width:100%;margin-top:6px;}
-button{padding:10px 14px;border:none;border-radius:8px;background:#ed9a9a;color:#240404;font-weight:600;cursor:pointer;}
+:root{
+  --accent:#ed9a9a;
+  --dark:#4f2222;
+  --bg:#fff7f7;
+  --card:#fdf3f3;
+}
+*{box-sizing:border-box;}
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--bg);
+  color:var(--dark);
+  margin:0;
+  min-height:100vh;
+}
+.account-hero{
+  background:linear-gradient(110deg,#300c0c 0%,#4f2222 45%,#7c3a3a 100%);
+  color:#fff;
+  padding:34px 20px 90px;
+  position:relative;
+  overflow:hidden;
+}
+.account-hero::after{
+  content:"";
+  position:absolute;
+  inset:10% auto auto 50%;
+  width:420px;
+  height:420px;
+  background:rgba(237,154,154,0.25);
+  filter:blur(120px);
+  transform:translateX(-50%);
+  pointer-events:none;
+}
+.hero-inner{
+  position:relative;
+  z-index:1;
+  max-width:1100px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.brand-pill{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  text-decoration:none;
+  padding:10px 18px;
+  background:rgba(255,255,255,0.08);
+  border-radius:80px;
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.2);
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+.brand-pill:hover{background:rgba(255,255,255,0.16);}
+.hero-logo{
+  width:58px;
+  height:58px;
+  object-fit:contain;
+  animation:haloPulse 3s ease-in-out infinite,spinY 10s linear infinite;
+}
+.brand-copy{display:flex;flex-direction:column;line-height:1;}
+.brand-title{
+  font-size:1.6rem;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  animation:glowText 2.8s ease-in-out infinite;
+}
+.brand-copy small{font-size:.8rem;color:rgba(255,255,255,0.8);}
+.home-link{
+  position:relative;
+  z-index:1;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:14px;
+  background:#fff;
+  color:var(--dark);
+  text-decoration:none;
+  font-weight:600;
+  box-shadow:0 12px 30px rgba(0,0,0,0.2);
+}
+.home-link span{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:var(--accent);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1rem;
+}
+.hero-tagline{
+  position:relative;
+  z-index:1;
+  max-width:700px;
+  margin:14px auto 0;
+  text-align:center;
+  color:rgba(255,255,255,0.9);
+}
+main{
+  padding:0 20px 40px;
+  margin-top:-70px;
+}
+.content-area{
+  max-width:900px;
+  margin:0 auto;
+  background:#fff;
+  border-radius:26px;
+  padding:34px;
+  box-shadow:0 25px 60px rgba(0,0,0,0.12);
+}
+h1{font-size:30px;margin-bottom:16px;}
+.profile-box{
+  background:var(--card);
+  border-radius:18px;
+  padding:24px;
+  margin-bottom:26px;
+  box-shadow:0 20px 45px rgba(237,154,154,0.18);
+}
+label{font-weight:600;color:var(--dark);}
+input,select{
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #d9baba;
+  width:100%;
+  margin-top:6px;
+  font-family:inherit;
+  font-size:14px;
+  background:#fff;
+}
+button{
+  padding:12px 20px;
+  border:none;
+  border-radius:12px;
+  background:var(--accent);
+  color:#240404;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 10px 20px rgba(237,154,154,0.3);
+}
 table{width:100%;border-collapse:collapse;margin-top:16px;}
-th,td{border-bottom:1px solid #e3c9c9;padding:8px;text-align:left;}
-.account-nav{background:#fdf3f3;border-radius:16px;padding:12px 20px;margin:0 auto 24px;box-shadow:0 15px 40px rgba(79,34,34,0.08);}
-.nav-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;}
-.brand-link{display:flex;align-items:center;gap:12px;text-decoration:none;}
-.nav-logo{width:58px;height:58px;object-fit:contain;animation:logoGlow 3s ease-in-out infinite;transition:transform .3s ease;}
-.nav-logo:hover{transform:scale(1.05);}
-.brand-glow{font-size:1.7rem;font-weight:700;color:#4f2222;letter-spacing:1px;text-transform:uppercase;animation:textGlow 2.8s ease-in-out infinite;}
-.home-btn{background:#4f2222;color:#fff;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:600;transition:transform .2s ease,box-shadow .2s ease;}
-.home-btn:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(79,34,34,0.2);}
-.home-btn:focus-visible{outline:2px solid #ed9a9a;outline-offset:3px;}
-@keyframes textGlow{0%{text-shadow:0 0 4px rgba(237,154,154,0.6),0 0 10px rgba(237,154,154,0.3);}50%{text-shadow:0 0 10px rgba(237,154,154,0.9),0 0 20px rgba(237,154,154,0.5);}100%{text-shadow:0 0 4px rgba(237,154,154,0.6),0 0 10px rgba(237,154,154,0.3);}}
-@keyframes logoGlow{0%{filter:drop-shadow(0 0 2px rgba(237,154,154,0.4));}50%{filter:drop-shadow(0 0 10px rgba(237,154,154,0.85));}100%{filter:drop-shadow(0 0 2px rgba(237,154,154,0.4));}}
-@media(max-width:640px){
-  body{padding:20px;}
-  .nav-inner{flex-direction:column;gap:16px;text-align:center;}
-  .home-btn{width:100%;}
+th,td{
+  border-bottom:1px solid #e3c9c9;
+  padding:10px 6px;
+  text-align:left;
+}
+@keyframes glowText{
+  0%{text-shadow:0 0 6px rgba(237,154,154,0.5),0 0 12px rgba(237,154,154,0.3);}
+  50%{text-shadow:0 0 16px rgba(237,154,154,0.9),0 0 26px rgba(237,154,154,0.6);}
+  100%{text-shadow:0 0 6px rgba(237,154,154,0.5),0 0 12px rgba(237,154,154,0.3);}
+}
+@keyframes haloPulse{
+  0%{filter:drop-shadow(0 0 2px rgba(237,154,154,0.4));}
+  50%{filter:drop-shadow(0 0 12px rgba(237,154,154,0.9));}
+  100%{filter:drop-shadow(0 0 2px rgba(237,154,154,0.4));}
+}
+@keyframes spinY{
+  from{transform:rotateY(0);}
+  to{transform:rotateY(360deg);}
+}
+@media(max-width:720px){
+  .hero-inner{flex-direction:column;align-items:flex-start;}
+  .home-link{align-self:flex-start;}
+  .content-area{padding:26px;}
+  .profile-box{padding:20px;}
+  main{padding:0 16px 30px;}
 }
 </style>
 </head>
 <body>
-  <header class="account-nav">
-    <div class="nav-inner">
-      <a href="/" class="brand-link">
-        <img src="images/logo.png" alt="Gloviéra logo" class="nav-logo">
-        <span class="brand-glow">Gloviéra</span>
+  <header class="account-hero">
+    <div class="hero-inner">
+      <a href="/" class="brand-pill" aria-label="Gloviéra home">
+        <img src="images/logo.png" alt="Gloviéra logo" class="hero-logo">
+        <div class="brand-copy">
+          <span class="brand-title">Gloviéra</span>
+          <small>Glow Beyond Beauty</small>
+        </div>
       </a>
-      <a href="/" class="home-btn">&larr; Back to Home</a>
+      <a href="/" class="home-link"><span>&larr;</span>Back to Home</a>
     </div>
+    <p class="hero-tagline">Manage your beauty journey, update your profile, and review every order in one glowing dashboard.</p>
   </header>
-  <div class="container">
-    <h1>My Account</h1>
-    <div id="profile" class="profile-box">
-      <h2>Profile</h2>
-      <form id="profileForm">
-        <label>Name<input id="accName" required></label><br>
-        <label>Email<input id="accEmail" readonly></label><br>
-        <label>Phone<input id="accPhone"></label><br>
-        <label>Gender
-          <select id="accGender">
-            <option value="">Select</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-          </select>
-        </label><br>
-        <label>Date of Birth<input type="date" id="accDOB"></label><br><br>
-        <button type="submit">Save Changes</button>
-      </form>
-    </div>
 
-    <div class="profile-box">
-      <h2>Orders</h2>
-      <table id="ordersTable">
-        <thead><tr><th>Item</th><th>Price</th><th>Status</th><th>Date</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-
-  <footer style="background:#4f2222;color:#ebd1d1;padding:22px 0;margin-top:30px;border-radius:12px;">
-    <div style="max-width:800px;margin:0 auto;padding:0 10px;">
-      <div style="display:grid;gap:20px;align-items:start;grid-template-columns:1fr;">
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <a href="https://www.instagram.com/gloviera.glam/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="instagram"></i><span>Instagram</span></a>
-          <a href="tel:+917009195109" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="phone"></i><span>7009195109</span></a>
-          <a href="tel:+918284932646" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="phone"></i><span>8284932646</span></a>
-          <a href="http://wa.me/917009195109" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="message-circle"></i><span>WhatsApp</span></a>
-        </div>
-        <div>
-          <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=30.7405139,76.6732376&z=17&output=embed" title="Gloviéra on Google Maps" style="width:320px;height:220px;border:0;border-radius:10px;"></iframe>
-          <a href="https://www.google.com/maps?q=30.7405139,76.6732376" target="_blank" rel="noopener" style="display:block;margin-top:6px;color:#ebd1d1;">Open in Google Maps</a>
-        </div>
+  <main>
+    <div class="content-area">
+      <h1>My Account</h1>
+      <div id="profile" class="profile-box">
+        <h2>Profile</h2>
+        <form id="profileForm">
+          <label>Name<input id="accName" required></label><br>
+          <label>Email<input id="accEmail" readonly></label><br>
+          <label>Phone<input id="accPhone"></label><br>
+          <label>Gender
+            <select id="accGender">
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </label><br>
+          <label>Date of Birth<input type="date" id="accDOB"></label><br><br>
+          <button type="submit">Save Changes</button>
+        </form>
       </div>
-      <div style="margin-top:14px;">
-        <p>© <strong>GLOVIÉRA</strong> — Glow Beyond Beauty</p>
+
+      <div class="profile-box" style="margin-bottom:0;">
+        <h2>Orders</h2>
+        <table id="ordersTable">
+          <thead><tr><th>Item</th><th>Price</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody></tbody>
+        </table>
       </div>
     </div>
-  </footer>
 
+    <footer style="background:#4f2222;color:#ebd1d1;padding:32px 0;margin-top:40px;border-radius:20px;">
+      <div style="max-width:800px;margin:0 auto;padding:0 10px;">
+        <div style="display:grid;gap:20px;align-items:start;grid-template-columns:1fr;">
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="https://www.instagram.com/gloviera.glam/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="instagram"></i><span>Instagram</span></a>
+            <a href="tel:+917009195109" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="phone"></i><span>7009195109</span></a>
+            <a href="tel:+918284932646" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="phone"></i><span>8284932646</span></a>
+            <a href="http://wa.me/917009195109" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="message-circle"></i><span>WhatsApp</span></a>
+          </div>
+          <div>
+            <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=30.7405139,76.6732376&z=17&output=embed" title="Gloviéra on Google Maps" style="width:320px;height:220px;border:0;border-radius:10px;"></iframe>
+            <a href="https://www.google.com/maps?q=30.7405139,76.6732376" target="_blank" rel="noopener" style="display:block;margin-top:6px;color:#ebd1d1;">Open in Google Maps</a>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <p>© <strong>GLOVIÉRA</strong> — Glow Beyond Beauty</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="components/nav.js"></script>
+  <script src="script.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAuth,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
