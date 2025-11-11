@@ -101,6 +101,10 @@ class GlovieraNav extends HTMLElement {
           align-items: center;
         }
 
+        :host([data-page="account"]) {
+          background: #6e5656;
+        }
+
         :host([data-page="account"]) nav {
           padding: 6px 16px 8px;
           gap: 10px;
@@ -113,6 +117,7 @@ class GlovieraNav extends HTMLElement {
 
         :host([data-page="account"]) .brand {
           font-size: 1.2rem;
+          color: #fff;
         }
 
         :host([data-page="account"]) .nav-links {
@@ -120,8 +125,37 @@ class GlovieraNav extends HTMLElement {
           flex-wrap: nowrap;
         }
 
+        :host([data-page="account"]) .nav-link {
+          color: rgba(255,255,255,0.92);
+        }
+
+        :host([data-page="account"]) .nav-link:hover {
+          color: #fff;
+        }
+
         :host([data-page="account"]) .btn-small {
           padding: 6px 12px;
+          border-color: rgba(255,255,255,0.4);
+          color: #fff;
+        }
+
+        :host([data-page="account"]) .btn-small:hover {
+          background: #fff;
+          color: #6e5656;
+        }
+
+        :host([data-page="account"]) .cart-badge {
+          background: #fff;
+          color: #6e5656;
+        }
+
+        :host([data-page="account"]) .menu-toggle {
+          border-color: rgba(255,255,255,0.5);
+          background: rgba(255,255,255,0.1);
+        }
+
+        :host([data-page="account"]) .menu-toggle span {
+          background: #fff;
         }
 
         .menu-toggle {
