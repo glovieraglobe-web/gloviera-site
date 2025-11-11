@@ -6,6 +6,7 @@ const distDir = path.join(projectRoot, 'dist');
 
 const entriesToCopy = [
   'index.html',
+  'about.html',
   'account.html',
   'payment-status.html',
   'style.css',

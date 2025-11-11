@@ -230,7 +230,7 @@ class GlovieraNav extends HTMLElement {
             <a href="/" class="nav-link">Home</a>
             <a href="#appointments" class="nav-link">Services</a>
             <a href="products/index.html" class="nav-link">Products</a>
-            <a href="#" class="nav-link">About</a>
+            <a href="about.html" class="nav-link">About</a>
             <a href="#" class="nav-link">Contact</a>
           </div>
 

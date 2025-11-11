@@ -4,6 +4,8 @@ const CACHE_NAME = `gloviera-${CACHE_VERSION}`;
 const CORE_ASSETS = [
   '/',
   '/index.html',
+  '/about.html',
+  '/account.html',
   '/style.css',
   '/script.js',
   '/manifest.webmanifest',
