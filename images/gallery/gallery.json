@@ -1,0 +1,255 @@
+{
+  "clients": [
+    {
+      "file": "client-01.jpg",
+      "label": "Client transformation 1"
+    },
+    {
+      "file": "client-02.jpg",
+      "label": "Client transformation 2"
+    },
+    {
+      "file": "client-03.jpg",
+      "label": "Client transformation 3"
+    },
+    {
+      "file": "client-04.jpg",
+      "label": "Client transformation 4"
+    },
+    {
+      "file": "client-05.jpg",
+      "label": "Client transformation 5"
+    },
+    {
+      "file": "client-06.jpg",
+      "label": "Client transformation 6"
+    },
+    {
+      "file": "client-07.jpg",
+      "label": "Client transformation 7"
+    },
+    {
+      "file": "client-08.jpg",
+      "label": "Client transformation 8"
+    },
+    {
+      "file": "client-09.jpg",
+      "label": "Client transformation 9"
+    },
+    {
+      "file": "client-10.jpg",
+      "label": "Client transformation 10"
+    },
+    {
+      "file": "client-11.jpg",
+      "label": "Client transformation 11"
+    },
+    {
+      "file": "client-12.jpg",
+      "label": "Client transformation 12"
+    },
+    {
+      "file": "client-13.jpg",
+      "label": "Client transformation 13"
+    },
+    {
+      "file": "client-14.jpg",
+      "label": "Client transformation 14"
+    },
+    {
+      "file": "client-15.jpg",
+      "label": "Client transformation 15"
+    }
+  ],
+  "brides": [
+    {
+      "file": "bridal-01.jpg",
+      "label": "Bridal artistry look 1"
+    },
+    {
+      "file": "bridal-02.jpg",
+      "label": "Bridal artistry look 2"
+    },
+    {
+      "file": "bridal-03.jpg",
+      "label": "Bridal artistry look 3"
+    },
+    {
+      "file": "bridal-04.jpg",
+      "label": "Bridal artistry look 4"
+    },
+    {
+      "file": "bridal-05.jpg",
+      "label": "Bridal artistry look 5"
+    },
+    {
+      "file": "bridal-06.jpg",
+      "label": "Bridal artistry look 6"
+    },
+    {
+      "file": "bridal-07.jpg",
+      "label": "Bridal artistry look 7"
+    },
+    {
+      "file": "bridal-08.jpg",
+      "label": "Bridal artistry look 8"
+    },
+    {
+      "file": "bridal-09.jpg",
+      "label": "Bridal artistry look 9"
+    },
+    {
+      "file": "bridal-10.jpg",
+      "label": "Bridal artistry look 10"
+    },
+    {
+      "file": "bridal-11.jpg",
+      "label": "Bridal artistry look 11"
+    },
+    {
+      "file": "bridal-12.jpg",
+      "label": "Bridal artistry look 12"
+    },
+    {
+      "file": "bridal-13.jpg",
+      "label": "Bridal artistry look 13"
+    },
+    {
+      "file": "bridal-14.jpg",
+      "label": "Bridal artistry look 14"
+    },
+    {
+      "file": "bridal-15.jpg",
+      "label": "Bridal artistry look 15"
+    },
+    {
+      "file": "bridal-31.jpg",
+      "label": "Bridal artistry look 16"
+    },
+    {
+      "file": "bridal-32.jpg",
+      "label": "Bridal artistry look 17"
+    },
+    {
+      "file": "bridal-33.jpg",
+      "label": "Bridal artistry look 18"
+    },
+    {
+      "file": "bridal-34.jpg",
+      "label": "Bridal artistry look 19"
+    },
+    {
+      "file": "bridal-35.jpg",
+      "label": "Bridal artistry look 20"
+    },
+    {
+      "file": "bridal-36.jpg",
+      "label": "Bridal artistry look 21"
+    },
+    {
+      "file": "bridal-37.jpg",
+      "label": "Bridal artistry look 22"
+    },
+    {
+      "file": "bridal-38.jpg",
+      "label": "Bridal artistry look 23"
+    },
+    {
+      "file": "bridal-39.jpg",
+      "label": "Bridal artistry look 24"
+    },
+    {
+      "file": "bridal-40.jpg",
+      "label": "Bridal artistry look 25"
+    },
+    {
+      "file": "bridal-41.jpg",
+      "label": "Bridal artistry look 26"
+    },
+    {
+      "file": "bridal-42.jpg",
+      "label": "Bridal artistry look 27"
+    },
+    {
+      "file": "bridal-43.jpg",
+      "label": "Bridal artistry look 28"
+    }
+  ],
+  "interiors": [
+    {
+      "file": "interior-01.jpeg",
+      "label": "Studio angle 1"
+    },
+    {
+      "file": "interior-02.jpeg",
+      "label": "Studio angle 2"
+    },
+    {
+      "file": "interior-03.jpeg",
+      "label": "Studio angle 3"
+    },
+    {
+      "file": "interior-04.jpeg",
+      "label": "Studio angle 4"
+    },
+    {
+      "file": "interior-05.jpeg",
+      "label": "Studio angle 5"
+    },
+    {
+      "file": "interior-06.jpeg",
+      "label": "Studio angle 6"
+    },
+    {
+      "file": "interior-07.jpeg",
+      "label": "Studio angle 7"
+    },
+    {
+      "file": "interior-08.jpeg",
+      "label": "Studio angle 8"
+    }
+  ],
+  "brand": [
+    {
+      "file": "brand-01.png",
+      "label": "Brand story visual 1"
+    },
+    {
+      "file": "brand-02.png",
+      "label": "Brand story visual 2"
+    },
+    {
+      "file": "brand-03.jpeg",
+      "label": "Brand story visual 3"
+    }
+  ],
+  "media": [
+    {
+      "file": "vid-01.mov",
+      "label": "Studio video 1",
+      "type": "video",
+      "mime": "video/quicktime",
+      "autoplay": false,
+      "muted": true,
+      "loop": true
+    },
+    {
+      "file": "vid-02.mp4",
+      "label": "Studio video 2",
+      "type": "video",
+      "mime": "video/mp4",
+      "autoplay": false,
+      "muted": true,
+      "loop": true
+    },
+    {
+      "file": "vid-03.mp4",
+      "label": "Studio video 3",
+      "type": "video",
+      "mime": "video/mp4",
+      "autoplay": true,
+      "muted": true,
+      "loop": true
+    }
+  ]
+}

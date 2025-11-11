@@ -297,6 +297,7 @@
         <p>Campaign visuals, product experiments, and the crest that reminds us to glow beyond beauty.</p>
       </div>
       <div class="gallery-grid is-tight" id="brandGallery" aria-live="polite"></div>
+      <div class="gallery-grid is-tight" id="brandVideoGallery" aria-live="polite"></div>
     </section>
   </main>
 
@@ -312,77 +313,51 @@
   <script>
     (function(){
       const galleries = [
-        {
-          el: document.getElementById('clientsGallery'),
-          base: 'images/gallery/clients/',
-          items: [
-            {file:'client-01.jpeg', label:'Foil highlight wrap session'},
-            {file:'client-02.jpeg', label:'Fresh textured crop'},
-            {file:'client-03.jpeg', label:'Classic pomp fade'},
-            {file:'client-04.jpeg', label:'Glossed beard work'},
-            {file:'client-05.jpeg', label:'Skin-fade refinement'},
-            {file:'client-06.jpeg', label:'Detailing the beard line'},
-            {file:'client-07.jpeg', label:'Defined part styling'},
-            {file:'client-08.jpeg', label:'Beach texture boost'},
-            {file:'client-09.jpeg', label:'Silky smooth finish'}
-          ]
-        },
-        {
-          el: document.getElementById('bridalGallery'),
-          base: 'images/gallery/brides/',
-          count: 42,
-          prefix: 'bridal-',
-          ext: '.jpg',
-          label: index => `Bridal artistry look ${index}`
-        },
-        {
-          el: document.getElementById('interiorGallery'),
-          base: 'images/gallery/interiors/',
-          count: 4,
-          prefix: 'interior-',
-          ext: '.jpg',
-          label: index => `Salon interior angle ${index}`
-        },
-        {
-          el: document.getElementById('brandGallery'),
-          base: 'images/gallery/brand/',
-          items: [
-            {file:'brand-01.png', label:'Monogram crest study'},
-            {file:'brand-02.jpg', label:'Brand story visual'},
-            {file:'brand-03.png', label:'Campaign concept'},
-            {file:'brand-04.png', label:'Product identity study'},
-            {file:'brand-05.png', label:'Ingredient focus'}
-          ]
-        }
+        { el: document.getElementById('clientsGallery'), base:'images/gallery/clients/', configFile:'clients' },
+        { el: document.getElementById('bridalGallery'), base:'images/gallery/brides/', configFile:'brides' },
+        { el: document.getElementById('interiorGallery'), base:'images/gallery/interiors/', configFile:'interiors' },
+        { el: document.getElementById('brandGallery'), base:'images/gallery/brand/', configFile:'brand' },
+        { el: document.getElementById('brandVideoGallery'), base:'images/gallery/brand/', configFile:'media' }
       ];
 
-      const buildItems = cfg => {
-        if (cfg.items) return cfg.items;
-        return Array.from({length: cfg.count || 0}, (_, i) => {
-          const index = i + 1;
-          return {
-            file: `${cfg.prefix}${String(index).padStart(2,'0')}${cfg.ext}`,
-            label: typeof cfg.label === 'function' ? cfg.label(index) : (cfg.label || '')
-          };
-        });
-      };
-
-      galleries.forEach(cfg => {
-        if (!cfg.el) return;
-        const items = buildItems(cfg);
-        items.forEach(item => {
-          const figure = document.createElement('figure');
-          const img = document.createElement('img');
-          img.loading = 'lazy';
-          img.src = cfg.base + item.file;
-          img.alt = item.label || 'Gloviéra gallery image';
-          const caption = document.createElement('figcaption');
-          caption.textContent = item.label || '';
-          figure.appendChild(img);
-          if (item.label) figure.appendChild(caption);
-          cfg.el.appendChild(figure);
-        });
-      });
+      fetch('images/gallery/gallery.json')
+        .then(res => res.json())
+        .then(data => {
+          galleries.forEach(cfg => {
+            if (!cfg.el || !data[cfg.configFile]) return;
+            data[cfg.configFile].forEach(item => {
+              const figure = document.createElement('figure');
+              if (item.type === 'video') {
+                const video = document.createElement('video');
+                video.controls = true;
+                video.loop = true;
+                video.muted = item.muted ?? true;
+                video.autoplay = item.autoplay ?? false;
+                video.playsInline = true;
+                video.loading = 'lazy';
+                video.poster = item.poster ? cfg.base + item.poster : '';
+                const source = document.createElement('source');
+                source.src = cfg.base + item.file;
+                source.type = item.mime || 'video/mp4';
+                video.appendChild(source);
+                figure.appendChild(video);
+              } else {
+                const img = document.createElement('img');
+                img.loading = 'lazy';
+                img.src = cfg.base + item.file;
+                img.alt = item.label || 'Gloviéra gallery image';
+                figure.appendChild(img);
+              }
+              if (item.label) {
+                const caption = document.createElement('figcaption');
+                caption.textContent = item.label;
+                figure.appendChild(caption);
+              }
+              cfg.el.appendChild(figure);
+            });
+          });
+        })
+        .catch(() => {});
     })();
   </script>
   <script>

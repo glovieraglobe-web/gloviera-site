@@ -6,6 +6,7 @@ const CORE_ASSETS = [
   '/index.html',
   '/about.html',
   '/account.html',
+  '/images/gallery/gallery.json',
   '/style.css',
   '/script.js',
   '/manifest.webmanifest',
