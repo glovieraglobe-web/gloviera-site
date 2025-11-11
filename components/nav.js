@@ -102,7 +102,7 @@ class GlovieraNav extends HTMLElement {
         }
 
         :host([data-page="account"]) {
-          background: #6e5656;
+          background: #b08a8a;
         }
 
         :host([data-page="account"]) nav {
@@ -141,17 +141,17 @@ class GlovieraNav extends HTMLElement {
 
         :host([data-page="account"]) .btn-small:hover {
           background: #fff;
-          color: #6e5656;
+          color: #b08a8a;
         }
 
         :host([data-page="account"]) .cart-badge {
           background: #fff;
-          color: #6e5656;
+          color: #b08a8a;
         }
 
         :host([data-page="account"]) .menu-toggle {
-          border-color: rgba(255,255,255,0.5);
-          background: rgba(255,255,255,0.1);
+          border-color: rgba(255,255,255,0.4);
+          background: rgba(255,255,255,0.15);
         }
 
         :host([data-page="account"]) .menu-toggle span {
