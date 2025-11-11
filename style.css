@@ -42,6 +42,8 @@ body{margin:0;background:var(--primary);color:var(--burgundy);min-height:100vh;}
   min-height:320px;
   background:linear-gradient(145deg,#f8e5e5,#f0d5d5);
   box-shadow:0 25px 55px rgba(79,34,34,0.15);
+  transition:transform .45s ease, box-shadow .45s ease;
+  isolation:isolate;
 }
 .offer-media{
   width:100%;
@@ -52,6 +54,7 @@ body{margin:0;background:var(--primary);color:var(--burgundy);min-height:100vh;}
   background-repeat:no-repeat;
   filter:brightness(0.98);
   background-color:#f3dcdc;
+  transition:transform .6s ease;
 }
 .offer-card figcaption{
   position:absolute;
@@ -90,6 +93,42 @@ body{margin:0;background:var(--primary);color:var(--burgundy);min-height:100vh;}
 .offer-phone::before{
   content:"☎";
   font-size:0.9rem;
+}
+.offer-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  border:1px solid rgba(255,255,255,0.4);
+  opacity:0;
+  transition:opacity .45s ease;
+  pointer-events:none;
+  z-index:1;
+}
+.offer-card:hover{
+  transform:translateY(-12px);
+  box-shadow:0 35px 60px rgba(79,34,34,0.25);
+}
+.offer-card:hover .offer-media{
+  transform:scale(1.05);
+}
+.offer-card:hover::after{
+  opacity:0.9;
+}
+.offer-card:hover figcaption{
+  background:linear-gradient(180deg,rgba(10,8,6,0) 0%,rgba(32,14,14,0.88) 100%);
+}
+@media (prefers-reduced-motion: reduce){
+  .offer-card,
+  .offer-media{
+    transition:none;
+  }
+  .offer-card:hover{
+    transform:none;
+  }
+  .offer-card:hover .offer-media{
+    transform:none;
+  }
 }
 
 /* cards */
