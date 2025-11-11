@@ -140,6 +140,14 @@
       display:block;
       transition:transform .4s ease;
     }
+    .gallery-grid video{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      display:block;
+      background:#050505;
+      border:0;
+    }
     .gallery-grid figure:hover img{
       transform:scale(1.06);
     }
@@ -160,6 +168,18 @@
     }
     .gallery-grid.is-large img{
       height:260px;
+    }
+    .brand-grid{
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:18px;
+    }
+    .brand-grid figure{
+      background:#1f0b0b;
+      box-shadow:0 20px 45px rgba(31,11,11,0.4);
+    }
+    .brand-grid figcaption{
+      font-size:0.9rem;
+      letter-spacing:0.02em;
     }
     .timeline{
       margin-top:18px;
@@ -296,8 +316,7 @@
         <h2>Brand Moments</h2>
         <p>Campaign visuals, product experiments, and the crest that reminds us to glow beyond beauty.</p>
       </div>
-      <div class="gallery-grid is-tight" id="brandGallery" aria-live="polite"></div>
-      <div class="gallery-grid is-tight" id="brandVideoGallery" aria-live="polite"></div>
+      <div class="gallery-grid brand-grid" id="brandGallery" aria-live="polite"></div>
     </section>
   </main>
 
@@ -312,47 +331,69 @@
   <script src="script.js"></script>
   <script>
     (function(){
-      const galleries = [
-        { el: document.getElementById('clientsGallery'), base:'images/gallery/clients/', configFile:'clients' },
-        { el: document.getElementById('bridalGallery'), base:'images/gallery/brides/', configFile:'brides' },
-        { el: document.getElementById('interiorGallery'), base:'images/gallery/interiors/', configFile:'interiors' },
-        { el: document.getElementById('brandGallery'), base:'images/gallery/brand/', configFile:'brand' },
-        { el: document.getElementById('brandVideoGallery'), base:'images/gallery/brand/', configFile:'media' }
+      const galleryConfigs = [
+        {
+          el: document.getElementById('clientsGallery'),
+          sources: [{ key:'clients', base:'images/gallery/clients/' }]
+        },
+        {
+          el: document.getElementById('bridalGallery'),
+          sources: [{ key:'brides', base:'images/gallery/brides/' }]
+        },
+        {
+          el: document.getElementById('interiorGallery'),
+          sources: [{ key:'interiors', base:'images/gallery/interiors/' }]
+        },
+        {
+          el: document.getElementById('brandGallery'),
+          sources: [
+            { key:'brand', base:'images/gallery/brand/' },
+            { key:'media', base:'images/gallery/brand/' }
+          ]
+        }
       ];
 
       fetch('images/gallery/gallery.json')
         .then(res => res.json())
         .then(data => {
-          galleries.forEach(cfg => {
-            if (!cfg.el || !data[cfg.configFile]) return;
-            data[cfg.configFile].forEach(item => {
+          galleryConfigs.forEach(cfg => {
+            if (!cfg.el) return;
+            const items = [];
+            cfg.sources.forEach(source => {
+              const list = data[source.key] || [];
+              list.forEach(item => {
+                items.push({ ...item, base: source.base });
+              });
+            });
+
+            items.forEach(item => {
               const figure = document.createElement('figure');
               if (item.type === 'video') {
                 const video = document.createElement('video');
-                video.controls = true;
-                video.loop = true;
+                video.controls = item.controls ?? true;
+                video.loop = item.loop ?? true;
                 video.muted = item.muted ?? true;
                 video.autoplay = item.autoplay ?? false;
                 video.playsInline = true;
-                video.loading = 'lazy';
-                video.poster = item.poster ? cfg.base + item.poster : '';
                 const source = document.createElement('source');
-                source.src = cfg.base + item.file;
+                source.src = item.base + item.file;
                 source.type = item.mime || 'video/mp4';
                 video.appendChild(source);
                 figure.appendChild(video);
               } else {
                 const img = document.createElement('img');
                 img.loading = 'lazy';
-                img.src = cfg.base + item.file;
+                img.src = item.base + item.file;
                 img.alt = item.label || 'Gloviéra gallery image';
                 figure.appendChild(img);
               }
+
               if (item.label) {
                 const caption = document.createElement('figcaption');
                 caption.textContent = item.label;
                 figure.appendChild(caption);
               }
+
               cfg.el.appendChild(figure);
             });
           });
