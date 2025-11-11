@@ -120,10 +120,13 @@ body{margin:0;background:var(--primary);color:var(--burgundy);min-height:100vh;}
   border:1px solid rgba(79,34,34,0.2);
   background:rgba(255,255,255,0.85);
   backdrop-filter:blur(6px);
-  font-size:1.4rem;
+  font-size:1.3rem;
   color:#512727;
   cursor:pointer;
   transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .offer-arrow:hover{
   transform:scale(1.08);
