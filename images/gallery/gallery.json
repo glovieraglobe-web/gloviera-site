@@ -225,10 +225,10 @@
   ],
   "media": [
     {
-      "file": "vid-01.mov",
+      "file": "vid-01.mp4",
       "label": "Studio video 1",
       "type": "video",
-      "mime": "video/quicktime",
+      "mime": "video/mp4",
       "autoplay": false,
       "muted": true,
       "loop": true
