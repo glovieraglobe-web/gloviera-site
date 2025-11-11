@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v4';
 const CACHE_NAME = `gloviera-${CACHE_VERSION}`;
 
 const CORE_ASSETS = [

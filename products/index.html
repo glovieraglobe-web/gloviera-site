@@ -980,6 +980,18 @@
       );
 
       document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+      const buyNowButton = document.getElementById('buyNowButton');
+      if (buyNowButton) {
+        const goToCheckout = () => {
+          const targetUrl = new URL('checkout.html', window.location.href).toString();
+          window.location.assign(targetUrl);
+        };
+        buyNowButton.addEventListener('click', (event) => {
+          event.preventDefault();
+          goToCheckout();
+        });
+      }
     </script>
     <script>
       try { feather && feather.replace && feather.replace(); } catch (e) {}

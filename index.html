@@ -435,6 +435,21 @@
     googleBtn.addEventListener('click', googleSignIn);
     googleBtnSU.addEventListener('click', googleSignIn);
 
+    if (isNativeApp) {
+      getRedirectResult(auth)
+        .then(async (result) => {
+          if (result && result.user) {
+            await saveUserProfile(result.user);
+            hideAuth();
+          }
+        })
+        .catch((err) => {
+          console.warn('Redirect sign-in failed', err);
+          (isSignupActive() ? signupStatus : loginStatus).textContent = err.message;
+        })
+        .finally(() => setGooglePending(false));
+    }
+
     // 🚪 Logout
     logoutBtn.addEventListener('click', async ()=>{
       await signOut(auth);
@@ -644,17 +659,3 @@
   </script>
   </body>
   </html>
-    if (isNativeApp) {
-      getRedirectResult(auth)
-        .then(async (result) => {
-          if (result && result.user) {
-            await saveUserProfile(result.user);
-            hideAuth();
-          }
-        })
-        .catch((err) => {
-          console.warn('Redirect sign-in failed', err);
-          (isSignupActive() ? signupStatus : loginStatus).textContent = err.message;
-        })
-        .finally(() => setGooglePending(false));
-    }

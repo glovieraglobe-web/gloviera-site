@@ -52,6 +52,7 @@ class GlovieraNav extends HTMLElement {
           align-items: center;
           gap: 16px;
           flex-wrap: wrap;
+          position: relative;
         }
 
         .left {
@@ -100,6 +101,75 @@ class GlovieraNav extends HTMLElement {
           align-items: center;
         }
 
+        :host([data-page="account"]) nav {
+          padding: 6px 16px 8px;
+          gap: 10px;
+        }
+
+        :host([data-page="account"]) .logo {
+          height: 42px;
+          width: 42px;
+        }
+
+        :host([data-page="account"]) .brand {
+          font-size: 1.2rem;
+        }
+
+        :host([data-page="account"]) .nav-links {
+          gap: 16px;
+          flex-wrap: nowrap;
+        }
+
+        :host([data-page="account"]) .btn-small {
+          padding: 6px 12px;
+        }
+
+        .menu-toggle {
+          display: none;
+          flex-direction: column;
+          justify-content: center;
+          align-items: stretch;
+          gap: 5px;
+          width: 42px;
+          height: 42px;
+          padding: 6px;
+          border-radius: 8px;
+          border: 1px solid rgba(79,34,34,0.2);
+          background: rgba(255,255,255,0.9);
+          cursor: pointer;
+          transition: background .3s ease, box-shadow .3s ease, border-color .3s ease;
+        }
+
+        .menu-toggle span {
+          display: block;
+          height: 2px;
+          background: #4f2222;
+          border-radius: 999px;
+          transition: transform .3s ease, opacity .3s ease;
+        }
+
+        .menu-toggle.open {
+          background: #4f2222;
+          border-color: #4f2222;
+          box-shadow: 0 8px 18px rgba(79,34,34,0.25);
+        }
+
+        .menu-toggle.open span {
+          background: #fff;
+        }
+
+        .menu-toggle.open span:nth-child(1) {
+          transform: translateY(7px) rotate(45deg);
+        }
+
+        .menu-toggle.open span:nth-child(2) {
+          opacity: 0;
+        }
+
+        .menu-toggle.open span:nth-child(3) {
+          transform: translateY(-7px) rotate(-45deg);
+        }
+
         .nav-link {
           text-decoration: none;
           color: #4f2222;
@@ -125,8 +195,31 @@ class GlovieraNav extends HTMLElement {
 
         @media (max-width: 768px) {
           nav { padding: 14px 16px 10px; }
+          .menu-toggle { display: flex; }
           .logo { height: 40px; width: 40px; }
           .brand { font-size: 1.3rem; }
+          .actions { margin-left: auto; }
+          .nav-links {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 16px;
+            left: 16px;
+            padding: 18px;
+            background: rgba(255,255,255,0.98);
+            border-radius: 14px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            border: 1px solid rgba(237,154,154,0.3);
+            animation: fadeInNav 0.3s ease;
+          }
+          .nav-links.open {
+            display: flex;
+          }
+          .nav-link {
+            width: 100%;
+          }
         }
 
         .btn-small {
@@ -176,13 +269,6 @@ class GlovieraNav extends HTMLElement {
           font-weight: 700;
         }
 
-        @media (max-width: 768px) {
-          .nav-links { display: none; }
-          .brand { font-size: 1.2rem; }
-          .actions { margin-left: auto; }
-          .logo { height: 38px; width: 38px; }
-        }
-
         @media (max-width: 560px) {
           nav { flex-direction: column; align-items: stretch; gap: 12px; }
           .left { justify-content: space-between; width: 100%; }
@@ -224,6 +310,11 @@ class GlovieraNav extends HTMLElement {
           <div class="left">
             <img class="logo" src="images/logo.png" alt="Gloviéra Logo" id="logo">
             <div class="brand">GLOVIÉRA</div>
+            <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
           </div>
 
           <div class="nav-links">
@@ -248,6 +339,27 @@ class GlovieraNav extends HTMLElement {
     const ua = navigator.userAgent || navigator.vendor || window.opera || '';
     const isIOS = /iPad|iPhone|iPod/.test(ua) || (ua.includes('Mac') && 'ontouchend' in document);
     this.setAttribute('data-platform', isIOS ? 'ios' : 'default');
+    const currentPath = (window.location.pathname || '').toLowerCase();
+    this.isAccountPage = currentPath.includes('account');
+    this.setAttribute('data-page', this.isAccountPage ? 'account' : 'default');
+
+    this.menuToggle = this.shadowRoot.querySelector('.menu-toggle');
+    this.navLinks = this.shadowRoot.querySelector('.nav-links');
+
+    if (this.menuToggle && this.navLinks) {
+      this.menuToggle.addEventListener('click', () => this.toggleMenu());
+      this.navLinks.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => this.closeMenu());
+      });
+    }
+
+    this.handleResize = () => {
+      if (window.innerWidth > 768) {
+        this.closeMenu();
+      }
+    };
+
+    window.addEventListener('resize', this.handleResize);
 
     this.renderAuth();
 
@@ -269,6 +381,26 @@ class GlovieraNav extends HTMLElement {
     this.toggleBackHome();
   }
 
+  disconnectedCallback() {
+    if (this.handleResize) {
+      window.removeEventListener('resize', this.handleResize);
+    }
+  }
+
+  toggleMenu() {
+    if (!this.menuToggle || !this.navLinks) return;
+    const isOpen = this.navLinks.classList.toggle('open');
+    this.menuToggle.classList.toggle('open', isOpen);
+    this.menuToggle.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  closeMenu() {
+    if (!this.menuToggle || !this.navLinks) return;
+    this.navLinks.classList.remove('open');
+    this.menuToggle.classList.remove('open');
+    this.menuToggle.setAttribute('aria-expanded', 'false');
+  }
+
   updateCartCount() {
     const countEl = this.shadowRoot.getElementById('cartCount');
     const cart = JSON.parse(localStorage.getItem('gloviera_cart') || '[]');
@@ -278,9 +410,11 @@ class GlovieraNav extends HTMLElement {
   toggleBackHome() {
     const backBtn = this.shadowRoot.getElementById('backHomeBtn');
     if (!backBtn) return;
-    const path = (window.location.pathname || '').toLowerCase();
-    const isAccount = path.includes('account');
-    backBtn.classList.toggle('show', isAccount);
+    const shouldShow =
+      typeof this.isAccountPage === 'boolean'
+        ? this.isAccountPage
+        : ((window.location.pathname || '').toLowerCase().includes('account'));
+    backBtn.classList.toggle('show', shouldShow);
   }
 
   renderAuth() {
