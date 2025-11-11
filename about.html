@@ -107,6 +107,60 @@
       font-size:2rem;
       font-weight:700;
     }
+    .gallery-section .section-header{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:flex-end;
+    }
+    .section-header p{
+      max-width:520px;
+      margin:0;
+      color:#6d4646;
+    }
+    .gallery-grid{
+      margin-top:20px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:16px;
+    }
+    .gallery-grid figure{
+      margin:0;
+      position:relative;
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 15px 35px rgba(0,0,0,0.12);
+      background:#f9f1f1;
+    }
+    .gallery-grid img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      display:block;
+      transition:transform .4s ease;
+    }
+    .gallery-grid figure:hover img{
+      transform:scale(1.06);
+    }
+    .gallery-grid figcaption{
+      position:absolute;
+      inset:auto 0 0;
+      padding:10px 14px;
+      background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.75) 100%);
+      color:#fff;
+      font-size:.85rem;
+      font-weight:500;
+    }
+    .gallery-grid figcaption span{
+      opacity:0.9;
+    }
+    .gallery-grid.is-tight img{
+      height:180px;
+    }
+    .gallery-grid.is-large img{
+      height:260px;
+    }
     .timeline{
       margin-top:18px;
       border-left:3px solid rgba(79,34,34,0.2);
@@ -144,6 +198,7 @@
       .hero{padding:90px 18px 70px;}
       .hero h1{font-size:2.3rem;}
       .section{padding:22px;}
+      .gallery-grid img{height:200px;}
     }
   </style>
 </head>
@@ -211,6 +266,38 @@
         </div>
       </div>
     </section>
+
+    <section class="section gallery-section">
+      <div class="section-header">
+        <h2>Studio In Action</h2>
+        <p>Foil work, precise fades, nourishing rituals, and glossy blowouts captured straight from the Gloviéra floor.</p>
+      </div>
+      <div class="gallery-grid is-large" id="clientsGallery" aria-live="polite"></div>
+    </section>
+
+    <section class="section gallery-section">
+      <div class="section-header">
+        <h2>Bridal Stories</h2>
+        <p>From sangeet shimmer to pheras perfection, our bridal artistry celebrates every tradition with modern finesse.</p>
+      </div>
+      <div class="gallery-grid" id="bridalGallery" aria-live="polite"></div>
+    </section>
+
+    <section class="section gallery-section">
+      <div class="section-header">
+        <h2>Inside the Salon</h2>
+        <p>Tour the airy studio, luxe seating, and thoughtfully zoned workstations where every glow session begins.</p>
+      </div>
+      <div class="gallery-grid is-tight" id="interiorGallery" aria-live="polite"></div>
+    </section>
+
+    <section class="section gallery-section">
+      <div class="section-header">
+        <h2>Brand Moments</h2>
+        <p>Campaign visuals, product experiments, and the crest that reminds us to glow beyond beauty.</p>
+      </div>
+      <div class="gallery-grid is-tight" id="brandGallery" aria-live="polite"></div>
+    </section>
   </main>
 
   <footer>
@@ -222,6 +309,82 @@
 
   <script src="components/nav.js"></script>
   <script src="script.js"></script>
+  <script>
+    (function(){
+      const galleries = [
+        {
+          el: document.getElementById('clientsGallery'),
+          base: 'images/gallery/clients/',
+          items: [
+            {file:'client-01.jpeg', label:'Foil highlight wrap session'},
+            {file:'client-02.jpeg', label:'Fresh textured crop'},
+            {file:'client-03.jpeg', label:'Classic pomp fade'},
+            {file:'client-04.jpeg', label:'Glossed beard work'},
+            {file:'client-05.jpeg', label:'Skin-fade refinement'},
+            {file:'client-06.jpeg', label:'Detailing the beard line'},
+            {file:'client-07.jpeg', label:'Defined part styling'},
+            {file:'client-08.jpeg', label:'Beach texture boost'},
+            {file:'client-09.jpeg', label:'Silky smooth finish'}
+          ]
+        },
+        {
+          el: document.getElementById('bridalGallery'),
+          base: 'images/gallery/brides/',
+          count: 42,
+          prefix: 'bridal-',
+          ext: '.jpg',
+          label: index => `Bridal artistry look ${index}`
+        },
+        {
+          el: document.getElementById('interiorGallery'),
+          base: 'images/gallery/interiors/',
+          count: 4,
+          prefix: 'interior-',
+          ext: '.jpg',
+          label: index => `Salon interior angle ${index}`
+        },
+        {
+          el: document.getElementById('brandGallery'),
+          base: 'images/gallery/brand/',
+          items: [
+            {file:'brand-01.png', label:'Monogram crest study'},
+            {file:'brand-02.jpg', label:'Brand story visual'},
+            {file:'brand-03.png', label:'Campaign concept'},
+            {file:'brand-04.png', label:'Product identity study'},
+            {file:'brand-05.png', label:'Ingredient focus'}
+          ]
+        }
+      ];
+
+      const buildItems = cfg => {
+        if (cfg.items) return cfg.items;
+        return Array.from({length: cfg.count || 0}, (_, i) => {
+          const index = i + 1;
+          return {
+            file: `${cfg.prefix}${String(index).padStart(2,'0')}${cfg.ext}`,
+            label: typeof cfg.label === 'function' ? cfg.label(index) : (cfg.label || '')
+          };
+        });
+      };
+
+      galleries.forEach(cfg => {
+        if (!cfg.el) return;
+        const items = buildItems(cfg);
+        items.forEach(item => {
+          const figure = document.createElement('figure');
+          const img = document.createElement('img');
+          img.loading = 'lazy';
+          img.src = cfg.base + item.file;
+          img.alt = item.label || 'Gloviéra gallery image';
+          const caption = document.createElement('figcaption');
+          caption.textContent = item.label || '';
+          figure.appendChild(img);
+          if (item.label) figure.appendChild(caption);
+          cfg.el.appendChild(figure);
+        });
+      });
+    })();
+  </script>
   <script>
     try { feather && feather.replace && feather.replace(); } catch (e) {}
   </script>
