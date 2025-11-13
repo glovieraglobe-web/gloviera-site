@@ -337,8 +337,9 @@ th,td{
             <a href="http://wa.me/917009195109" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;color:#ebd1d1;text-decoration:none;"><i data-feather="message-circle"></i><span>WhatsApp</span></a>
           </div>
           <div>
-            <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=30.7405139,76.6732376&z=17&output=embed" title="Gloviéra on Google Maps" style="width:320px;height:220px;border:0;border-radius:10px;"></iframe>
-            <a href="https://www.google.com/maps?q=30.7405139,76.6732376" target="_blank" rel="noopener" style="display:block;margin-top:6px;color:#ebd1d1;">Open in Google Maps</a>
+            <gmpx-api-loader key="AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg" solution-channel="GMP_QB_locatorplus_v11_cABDF"></gmpx-api-loader>
+            <gmpx-store-locator map-id="DEMO_MAP_ID" style="display:block;width:320px;height:220px;border-radius:10px;overflow:hidden;background:#3d1d1d;"></gmpx-store-locator>
+            <a href="https://maps.app.goo.gl/yfM1sr9ZPmy1R4ED7" target="_blank" rel="noopener" style="display:block;margin-top:6px;color:#ebd1d1;">Open in Google Maps</a>
           </div>
         </div>
         <div style="margin-top:14px;">
@@ -348,6 +349,8 @@ th,td{
     </footer>
   </main>
 
+  <script src="store-locator.js"></script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.11/index.min.js"></script>
   <script src="components/nav.js"></script>
   <script src="script.js"></script>
   <script type="module">

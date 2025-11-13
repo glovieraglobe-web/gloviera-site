@@ -73,7 +73,7 @@
     .footer-item:hover{color:#fff}
     .footer-item svg{width:18px;height:18px}
     .footer-map{position:relative}
-    .footer-map iframe{width:320px;height:220px;border:0;border-radius:10px}
+    .footer-map gmpx-store-locator{display:block;width:320px;height:220px;border-radius:10px;overflow:hidden;background:#3d1d1d}
     .footer-map a{display:block;margin-top:6px;color:#ebd1d1}
     .footer-bottom{margin-top:14px}
     /* Simple hero/deals placeholders keep your original layout intact */
@@ -278,7 +278,8 @@
               </a>
             </div>
             <div class="footer-map">
-              <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=https%3A%2F%2Fmaps.app.goo.gl%2FyfM1sr9ZPmy1R4ED7&z=17&output=embed" title="Gloviéra on Google Maps"></iframe>
+              <gmpx-api-loader key="AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg" solution-channel="GMP_QB_locatorplus_v11_cABDF"></gmpx-api-loader>
+              <gmpx-store-locator map-id="DEMO_MAP_ID" class="footer-locator"></gmpx-store-locator>
               <a href="https://maps.app.goo.gl/yfM1sr9ZPmy1R4ED7" target="_blank" rel="noopener">Open in Google Maps</a>
             </div>
           </div>
@@ -390,6 +391,8 @@
     </div>
   </div>
 
+  <script src="store-locator.js"></script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.11/index.min.js"></script>
   <script src="components/splash.js"></script>
   <script src="components/nav.js"></script>
   <script src="components/appointments.js"></script>

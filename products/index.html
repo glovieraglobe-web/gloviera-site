@@ -161,12 +161,14 @@
         justify-self: start;
       }
 
-      .page-footer .footer-map iframe {
+      .page-footer .footer-map gmpx-store-locator {
+        display: block;
         width: 100%;
         max-width: 360px;
         height: 220px;
-        border: 0;
         border-radius: 10px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.08);
       }
 
       .page-footer .footer-map a {
@@ -205,7 +207,7 @@
         .page-footer .footer-map {
           justify-self: stretch;
         }
-        .page-footer .footer-map iframe {
+        .page-footer .footer-map gmpx-store-locator {
           max-width: 100%;
         }
       }
@@ -920,7 +922,8 @@
             <a href="https://g.page/r/CQk5bc_k84LJEBM/review" target="_blank" rel="noopener"><i data-feather="star"></i><span>Leave a Review</span></a>
           </div>
           <div class="footer-map">
-            <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=https%3A%2F%2Fmaps.app.goo.gl%2FyfM1sr9ZPmy1R4ED7&z=17&output=embed" title="Gloviéra on Google Maps"></iframe>
+            <gmpx-api-loader key="AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg" solution-channel="GMP_QB_locatorplus_v11_cABDF"></gmpx-api-loader>
+            <gmpx-store-locator map-id="DEMO_MAP_ID"></gmpx-store-locator>
             <a href="https://maps.app.goo.gl/yfM1sr9ZPmy1R4ED7" target="_blank" rel="noopener">Open in Google Maps</a>
           </div>
         </div>
@@ -930,6 +933,8 @@
       </div>
     </footer>
 
+    <script src="../store-locator.js"></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.11/index.min.js"></script>
     
     <script>
       const splash = document.getElementById('splash');
